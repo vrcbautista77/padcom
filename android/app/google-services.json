@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "972227954327",
+    "project_id": "bicommapps",
+    "storage_bucket": "bicommapps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972227954327:android:f0aa505d59bc60651a4bd2",
+        "android_client_info": {
+          "package_name": "com.bicommapps.padcom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972227954327-vjsqvhue6s4i8fij4c2vrd2n2rklqgbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bicommapps.padcom",
+            "certificate_hash": "e68a326258cf576eaf968942ecd649cb749f9f19"
+          }
+        },
+        {
+          "client_id": "972227954327-k46bdimp5fkkl1o7mch6cq9f6n0qhe4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK1dLc02Kylt5YpakBoAb58gRPcuHcObo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972227954327-k46bdimp5fkkl1o7mch6cq9f6n0qhe4o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

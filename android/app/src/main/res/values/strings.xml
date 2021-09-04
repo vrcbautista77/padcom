@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BiCommApps</string>
+    <string name="facebook_app_id">808644116481889</string>
+    <string name="fb_login_protocol_scheme">fb808644116481889</string>
+</resources>
