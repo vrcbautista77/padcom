@@ -28,7 +28,7 @@ class _EditProfileState extends State<EditProfile> {
           TextButton(
             onPressed: () {},
             child: Text(
-              'Done',
+              'Save',
               style: TextStyle(
                 color: Colors.white,
               ),
