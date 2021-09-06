@@ -56,7 +56,18 @@ class _LoginPageState extends State<LoginPage> {
                           padding: EdgeInsets.all(30),
                           child: Column(
                             children: [
-                              //---- Place App logo Here --- //
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 20.0),
+                                  width: 200,
+                                  height: 200,
+                                  child: Image(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage('assets/test_logo.jpg'),
+                                  ),
+                                ),
+                              ),
                               Container(
                                 height: 100,
                               ),
@@ -109,7 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 20, right: 20),
-                                child: Column(
+                                child: isLoading == false
+                                    ? Column(
                                   children: [
                                     // TextButton(
                                     //     // onPressed: onTap,
@@ -130,20 +142,26 @@ class _LoginPageState extends State<LoginPage> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    isLoading == false
-                                    ? TextButton(
+                                    TextButton(
                                         onPressed: () async{
                                           setState(() {
                                             isLoading = true;
                                           });
-
-                                          await userProvider.logInWithFacebook();
-                                          Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()),);
-
+                                          try{
+                                            await userProvider.logInWithFacebook();
+                                          } catch(err){
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                            return;
+                                          }
                                           setState(() {
                                             isLoading = false;
                                           });
-                                        },
+
+                                          // to loading page
+                                          Navigator.of(context).popUntil(
+                                                    (route) => route.isFirst);                                        },
                                         style: TextButton.styleFrom(
                                           padding: EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
                                           shape: RoundedRectangleBorder(
@@ -156,12 +174,11 @@ class _LoginPageState extends State<LoginPage> {
                                             "LOG IN WITH FACEBOOK",
                                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 , color: Colors.white),
                                           ),
-                                        ) ) : CircularProgressIndicator(),
+                                        ) ),
 
                                     SizedBox(
                                       height: 10,
                                     ),
-
                                     TextButton(
                                         onPressed: () async {
                                           setState(() {
@@ -187,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 , color: Color(0xFFCB4B3B)),
                                           ),
                                         ),
-                                      ),
+                                      ) 
                                     // AtlasButton(
                                     //   onTap: () => _onPressedLoginButton(context, type: LoginTypes.Google),
                                     //   expanded: true,
@@ -199,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                                     //   titleAlignment: Alignment.center,
                                     // ),
                                   ],
-                                ),
+                                ) : CircularProgressIndicator(),
                               ),
                               SizedBox(
                                 height: 10,
