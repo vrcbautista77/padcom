@@ -159,9 +159,9 @@ class _LoginPageState extends State<LoginPage> {
                                             isLoading = false;
                                           });
 
-                                          // to loading page
-                                          Navigator.of(context).popUntil(
-                                                    (route) => route.isFirst);                                        },
+                                          // to home
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                        },
                                         style: TextButton.styleFrom(
                                           padding: EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
                                           shape: RoundedRectangleBorder(

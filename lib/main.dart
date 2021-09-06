@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:padcom/pages/edit_profile.dart';
 import 'package:padcom/pages/home_page.dart';
 import 'package:padcom/pages/login_page.dart';
-import 'package:padcom/pages/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +29,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: EditProfile(), //Profile(),
+      debugShowCheckedModeBanner: false,
+      home: RootPage(),
     );
   }
 }
@@ -56,16 +55,12 @@ class _MyAppState extends State<RootPage> {
       // user is logged in
       await Future.delayed(const Duration(milliseconds: 5000), null);
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-      return;
+    }else{
+      // user not logged in
+      await Future.delayed(const Duration(milliseconds: 5000), null);
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
-    // user not logged in
-    await Future.delayed(const Duration(milliseconds: 5000), null);
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      checkUser();
-    });
   }
 
   @override

@@ -11,10 +11,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        centerTitle: true,
-      ),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -168,28 +164,6 @@ class _ProfileState extends State<Profile> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.message,
-            ),
-            label: 'Messge',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.people,
-            ),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }
