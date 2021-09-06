@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:padcom/pages/home_page.dart';
+import 'package:padcom/home.dart';
 import 'package:padcom/pages/login_page.dart';
 
 void main() async {
@@ -54,7 +54,7 @@ class _MyAppState extends State<RootPage> {
     if (user != null) {
       // user is logged in
       await Future.delayed(const Duration(milliseconds: 5000), null);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }else{
       // user not logged in
       await Future.delayed(const Duration(milliseconds: 5000), null);

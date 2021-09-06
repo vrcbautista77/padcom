@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:padcom/pages/home_page.dart';
+import 'package:padcom/home.dart';
 import 'package:padcom/provider/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                           });
 
                                           // to home
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                                         },
                                         style: TextButton.styleFrom(
                                           padding: EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                             isLoading = true;
                                           });
                                           await userProvider.logInWithGoogle();
-                                          Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()),);
+                                          Navigator.push(context,MaterialPageRoute(builder: (context) => Home()),);
 
                                           setState(() {
                                             isLoading = false;

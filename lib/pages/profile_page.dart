@@ -20,7 +20,7 @@ class _ProfileState extends State<Profile> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [
-                        Color(0xff01CCD0),
+                        Colors.teal,
                         Color(0xff5A71CE),
                         Color(0xff9833CD),
                       ],

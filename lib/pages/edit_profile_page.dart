@@ -177,7 +177,7 @@ class _EditProfileState extends State<EditProfile> {
                   DatePicker.showDatePicker(
                     context,
                     showTitleActions: true,
-                    minTime: DateTime(2018, 3, 5),
+                    minTime: DateTime(1900, 3, 5),
                     maxTime: DateTime(2019, 6, 7),
                     onChanged: (date) {
                       print('change $date');
