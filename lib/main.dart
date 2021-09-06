@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:padcom/pages/edit_profile.dart';
 import 'package:padcom/pages/home_page.dart';
 import 'package:padcom/pages/login_page.dart';
+import 'package:padcom/pages/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: RootPage(),
+      home: EditProfile(), //Profile(),
     );
   }
 }
@@ -43,14 +45,15 @@ class RootPage extends StatefulWidget {
 
 class _MyAppState extends State<RootPage> {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     checkUser();
   }
-  
-  void checkUser() async{
+
+  void checkUser() async {
     User user = FirebaseAuth.instance.currentUser;
-    if(user != null){ // user is logged in
+    if (user != null) {
+      // user is logged in
       await Future.delayed(const Duration(milliseconds: 5000), null);
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
       return;
@@ -61,7 +64,7 @@ class _MyAppState extends State<RootPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-        checkUser();
+      checkUser();
     });
   }
 
@@ -114,7 +117,10 @@ class _MyAppState extends State<RootPage> {
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(vertical: 32.0),
                     child: Column(
-                      children: <Widget>[CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue))],
+                      children: <Widget>[
+                        CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue))
+                      ],
                     ),
                   ),
                 ),
