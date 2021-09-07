@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:padcom/globals.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key key}) : super(key: key);
@@ -41,7 +42,7 @@ class _ProfileState extends State<Profile> {
                       height: 20,
                     ),
                     Text(
-                      'Alice James',
+                      globalUser.fname + " " + globalUser.lname,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

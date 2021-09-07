@@ -1,8 +1,12 @@
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as FirebaseUser;
 import 'package:flutter/material.dart';
+import 'package:padcom/globals.dart';
 import 'package:padcom/home.dart';
+import 'package:padcom/models/user_model.dart';
+import 'package:padcom/pages/edit_profile_page.dart';
 import 'package:padcom/provider/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -151,6 +155,16 @@ class _LoginPageState extends State<LoginPage> {
                                           });
                                           try{
                                             await userProvider.logInWithFacebook();
+                                            var uid = FirebaseUser.FirebaseAuth.instance.currentUser.uid;
+                                            var checkUserDetails = await FirebaseFirestore.instance.collection("users").doc(uid).get();
+
+                                            if(!checkUserDetails.exists){
+                                              // go to edit profile
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile(from: "login",)));
+                                            }
+                                            
+                                            //set global user variable
+                                            globalUser = User.fromDB(id: checkUserDetails.id, data: checkUserDetails.data());
                                           } catch(err){
                                             setState(() {
                                               isLoading = false;
