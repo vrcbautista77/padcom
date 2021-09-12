@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/globals.dart';
-import 'package:padcom/home.dart';
 import 'package:padcom/models/user_model.dart';
 import 'package:padcom/pages/edit_profile_page.dart';
+import 'package:padcom/pages/home_page.dart';
 import 'package:padcom/pages/login_page.dart';
 
 void main() async {
@@ -71,7 +71,7 @@ class _MyAppState extends State<RootPage> {
       //set global user
       globalUser = User.fromDB(id: checkUserDetails.id, data: checkUserDetails.data());
                                             
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
     }else{
       // user not logged in
       await Future.delayed(const Duration(milliseconds: 5000), null);

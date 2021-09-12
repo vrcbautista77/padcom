@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/models/global_data.dart';
 import 'package:padcom/pages/community_page.dart';
+import 'package:padcom/pages/edit_profile.dart';
 import 'package:padcom/pages/friends_page.dart';
+import 'package:padcom/pages/login_page.dart';
 import 'package:padcom/pages/profile_page.dart';
 import 'package:padcom/pages/trail_page.dart';
 
@@ -14,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   int _currentIndex = 0;
+  bool _isLoading = false;
 
   final _pageController = PageController(initialPage: 0);
 
@@ -44,9 +48,64 @@ class _HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: SizedBox(),
         title: Text(appBarTitle.value),
         centerTitle: true,
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              leading: Icon(Icons.history),
+              title: const Text('Activities'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: const Text('Favorite'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: const Text('Edit Profile'),
+              onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: _isLoading == false ?  Text('Logout') : Text('Logging out, please wait...'),
+              onTap: () async {
+                  setState(() {_isLoading = true;});
+                  await FirebaseAuth.instance.signOut();
+                  await Future.delayed(const Duration(milliseconds: 3000), null);
+                  setState(() {_isLoading = false;});
+                  // to login page
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+            ),
+          ],
+        ),
       ),
       body: PageView(
         scrollDirection: Axis.horizontal,

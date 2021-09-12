@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:padcom/globals.dart';
-import 'package:padcom/home.dart';
 import 'package:padcom/models/user_model.dart';
+import 'package:padcom/pages/home_page.dart';
 
 class EditProfile extends StatefulWidget {
   EditProfile({Key key, this.from}) : super(key: key);
@@ -102,7 +102,7 @@ class _EditProfileState extends State<EditProfile> {
                 globalUser = newUser;
 
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                    context, MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: Text(
                 _isLoading == false ? 'Save' : "Saving...",

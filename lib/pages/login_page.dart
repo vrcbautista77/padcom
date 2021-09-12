@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseUser;
 import 'package:flutter/material.dart';
 import 'package:padcom/globals.dart';
-import 'package:padcom/home.dart';
 import 'package:padcom/models/user_model.dart';
 import 'package:padcom/pages/edit_profile_page.dart';
+import 'package:padcom/pages/home_page.dart';
 import 'package:padcom/provider/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                                           });
 
                                           // to home
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                                         },
                                         style: TextButton.styleFrom(
                                           padding: EdgeInsets.only(top: 15, bottom: 15, right: 20, left: 20),
@@ -201,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                                             isLoading = true;
                                           });
                                           await userProvider.logInWithGoogle();
-                                          Navigator.push(context,MaterialPageRoute(builder: (context) => Home()),);
+                                          Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()),);
 
                                           setState(() {
                                             isLoading = false;
