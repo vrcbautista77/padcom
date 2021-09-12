@@ -14,7 +14,8 @@ class TrailPage extends StatefulWidget {
 
 class _TrailPageState extends State<TrailPage> {
   TextEditingController _searchController = TextEditingController();
-  String dropDownValue = 'Beginner';
+  String difficultyValue = 'All';
+  String searchValue = '';
 
   Stream<QuerySnapshot> trailsCollectionStream = FirebaseFirestore.instance.collection('trails').orderBy('created_at').snapshots();
   
@@ -44,7 +45,11 @@ class _TrailPageState extends State<TrailPage> {
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   ),
                   child: TextField(
-                    onChanged: (text) {},
+                    onChanged: (text) {
+                      setState(() {
+                        searchValue = text;
+                                            });
+                    },
                     controller: _searchController,
                     style: TextStyle(fontSize: 16.0),
                     decoration: InputDecoration(
@@ -59,8 +64,9 @@ class _TrailPageState extends State<TrailPage> {
               ),
             ),
             AppDropdown(
-              selectedValue: dropDownValue,
+              selectedValue: difficultyValue,
               listValue: [
+                'All',
                 'Beginner',
                 'Intermediate',
                 'Expert',
@@ -68,9 +74,7 @@ class _TrailPageState extends State<TrailPage> {
               borderColor: AppColor.secondary,
               onChanged: (value) {
                 setState(() {
-                  dropDownValue = value;
-
-
+                  difficultyValue = value;
                 });
               },
             )
@@ -91,6 +95,14 @@ class _TrailPageState extends State<TrailPage> {
           return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+            if(difficultyValue != "All"  && (difficultyValue != data['difficulty'])){
+              return SizedBox();
+            }
+
+            if(searchValue != '' && !data['title'].contains(searchValue)){
+              return SizedBox();
+            }
+
             return TrailTile(
               onTap: () {
                 showDialog(context: context, builder: (context) => TrailModal());

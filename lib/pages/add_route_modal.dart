@@ -21,7 +21,6 @@ class _AddRouteModalState extends State<AddRouteModal> {
 
   CollectionReference trailsCollection = FirebaseFirestore.instance.collection('trails');
 
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
