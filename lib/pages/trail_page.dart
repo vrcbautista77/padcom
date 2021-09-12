@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
 import 'package:padcom/pages/add_route_modal.dart';
@@ -14,6 +15,9 @@ class TrailPage extends StatefulWidget {
 class _TrailPageState extends State<TrailPage> {
   TextEditingController _searchController = TextEditingController();
   String dropDownValue = 'Beginner';
+
+  Stream<QuerySnapshot> trailsCollectionStream = FirebaseFirestore.instance.collection('trails').orderBy('created_at').snapshots();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,35 +69,40 @@ class _TrailPageState extends State<TrailPage> {
               onChanged: (value) {
                 setState(() {
                   dropDownValue = value;
+
+
                 });
               },
             )
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TrailTile(
+      body: StreamBuilder<QuerySnapshot>(
+        stream: trailsCollectionStream ,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          return ListView(
+          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+            return TrailTile(
               onTap: () {
                 showDialog(context: context, builder: (context) => TrailModal());
               },
-              title: 'Rizal New Trail',
+              title: data['title'] ?? '',
               subtitle: '4.2 out of 7',
-              subtitle2: 'This is amazing trail. Sandy and Rocky feeling hehe',
+              subtitle2: data['description'] ?? '',
               subtitle3: '200km',
-            ),
-            TrailTile(
-              onTap: () {
-                showDialog(context: context, builder: (context) => TrailModal());
-              },
-              title: 'Rizal New Trail',
-              subtitle: '4.2 out of 7',
-              subtitle2: 'This is amazing trail. Sandy and Rocky feeling hehe',
-              subtitle3: '200km',
-            ),
-          ],
-        ),
+            );
+          }).toList(),
+        );
+        }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

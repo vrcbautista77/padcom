@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
+import 'package:padcom/globals.dart';
+import 'package:padcom/pages/app_dropdown.dart';
 import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
@@ -14,6 +17,11 @@ class AddRouteModal extends StatefulWidget {
 class _AddRouteModalState extends State<AddRouteModal> {
   TextEditingController _title = TextEditingController();
   TextEditingController _description = TextEditingController();
+  String difficultyValue = 'Beginner';
+
+  CollectionReference trailsCollection = FirebaseFirestore.instance.collection('trails');
+
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -41,40 +49,40 @@ class _AddRouteModalState extends State<AddRouteModal> {
                     ))
               ],
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 22),
-                child: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: '4.2 out of 7 ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: ' | ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '200km ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 22),
+            //     child: RichText(
+            //       text: TextSpan(children: [
+            //         TextSpan(
+            //           text: '4.2 out of 7 ',
+            //           style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 11,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         TextSpan(
+            //           text: ' | ',
+            //           style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 14,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         TextSpan(
+            //           text: '200km ',
+            //           style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 11,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //       ]),
+            //     ),
+            //   ),
+            // ),
             Container(
               height: 230,
               width: 240,
@@ -85,6 +93,23 @@ class _AddRouteModalState extends State<AddRouteModal> {
             ),
             SizedBox(
               height: 20,
+            ),
+            AppDropdown(
+              selectedValue: difficultyValue,
+              listValue: [
+                'Beginner',
+                'Intermediate',
+                'Expert',
+              ],
+              borderColor: AppColor.secondary,
+              onChanged: (value) {
+                setState(() {
+                  difficultyValue = value;
+                });
+              },
+            ),
+                        SizedBox(
+              height: 15,
             ),
             Container(
                 width: MediaQuery.of(context).size.width * 0.65,
@@ -102,6 +127,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
             Container(
               width: MediaQuery.of(context).size.width * 0.65,
               child: ExpandedTextField(
+                controller: _description,
                 bgColor: Colors.grey[100],
                 hintText: 'description',
                 styleHint: TextStyle(fontSize: 12),
@@ -120,7 +146,27 @@ class _AddRouteModalState extends State<AddRouteModal> {
                 elevation: 1,
                 title: 'Submit',
                 titleFontSize: 14,
-                onTap: () {},
+                onTap: () async {
+                  if(_title.text == '' || _description.text == ''){
+                    _showSnackbar(context, message: "Please complete details");
+                    return;
+                  }
+                  
+                  await trailsCollection.add({
+                    'title': _title.text,
+                    'description': _description.text,
+                    'difficulty': difficultyValue,
+                    'user_id': globalUser.id,
+                    'created_at': DateTime.now()
+                  })
+                  .then((value) {
+                    Navigator.pop(context);
+                    _showSnackbar(context, message: "Route added success");
+                  })
+                  .catchError((error) {
+                      _showSnackbar(context, message: "Route added error");
+                  });
+                },
                 titleAlignment: Alignment.center,
                 titleColor: Colors.white,
               ),
@@ -132,5 +178,19 @@ class _AddRouteModalState extends State<AddRouteModal> {
         ),
       ),
     );
+  }
+    _showSnackbar(context, {@required String message}) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(new SnackBar(
+        backgroundColor: Colors.black,
+        duration: Duration(seconds: 2),
+        content: new Text(
+          message,
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+        ),
+      ));
   }
 }
