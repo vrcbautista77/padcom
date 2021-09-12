@@ -1,10 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:padcom/constants/color.dart';
 import 'package:padcom/models/global_data.dart';
 import 'package:padcom/pages/community_page.dart';
 import 'package:padcom/pages/friends_page.dart';
-import 'package:padcom/pages/profile.dart';
+import 'package:padcom/pages/profile_page.dart';
 import 'package:padcom/pages/trail_page.dart';
 
 class HomePage extends StatefulWidget {
