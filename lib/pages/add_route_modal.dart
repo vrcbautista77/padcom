@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:padcom/constants/color.dart';
 import 'package:padcom/globals.dart';
 import 'package:padcom/pages/app_dropdown.dart';
 import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
+import 'package:padcom/pages/map_component.dart';
 
 class AddRouteModal extends StatefulWidget {
   const AddRouteModal({Key key}) : super(key: key);
@@ -85,10 +87,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
             Container(
               height: 230,
               width: 240,
-              child: Image(
-                image: AssetImage('assets/default_map.png'),
-                fit: BoxFit.cover,
-              ),
+              child: MapComponent(),
             ),
             SizedBox(
               height: 20,

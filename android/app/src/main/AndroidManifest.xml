@@ -3,6 +3,12 @@
    <application
         android:label="padcom"
         android:icon="@mipmap/ic_launcher">
+
+
+        <!-- Google Map API Key -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDyDeFYk6t2gvr8Ef9y-Zt9MLfE4ZqiBD0"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

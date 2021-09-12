@@ -3,6 +3,7 @@ import 'package:padcom/constants/color.dart';
 import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
+import 'package:padcom/pages/map_component.dart';
 
 class TrailModal extends StatefulWidget {
   const TrailModal({Key key}) : super(key: key);
@@ -14,6 +15,8 @@ class TrailModal extends StatefulWidget {
 class _TrailModalState extends State<TrailModal> {
   TextEditingController _groupName = TextEditingController();
   TextEditingController _description = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -78,10 +81,7 @@ class _TrailModalState extends State<TrailModal> {
             Container(
               height: 230,
               width: 240,
-              child: Image(
-                image: AssetImage('assets/default_map.png'),
-                fit: BoxFit.cover,
-              ),
+              child: MapComponent()
             ),
             SizedBox(
               height: 20,
