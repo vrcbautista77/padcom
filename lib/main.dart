@@ -1,10 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:padcom/pages/edit_profile.dart';
-import 'package:padcom/pages/home_page.dart';
+import 'package:padcom/globals.dart';
+import 'package:padcom/home.dart';
+import 'package:padcom/models/user_model.dart';
+import 'package:padcom/pages/edit_profile_page.dart';
 import 'package:padcom/pages/login_page.dart';
-import 'package:padcom/pages/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(), //Profile(),
+      home: RootPage(),
     );
   }
 }
@@ -52,21 +54,30 @@ class _MyAppState extends State<RootPage> {
   }
 
   void checkUser() async {
-    User user = FirebaseAuth.instance.currentUser;
+    var user = FirebaseAuth.FirebaseAuth.instance.currentUser;
     if (user != null) {
       // user is logged in
       await Future.delayed(const Duration(milliseconds: 5000), null);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-      return;
+      var checkUserDetails = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+
+      if(!checkUserDetails.exists){
+        // go to edit profile
+        Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile(
+          from: "login",
+        )));
+        return;
+      }
+      
+      //set global user
+      globalUser = User.fromDB(id: checkUserDetails.id, data: checkUserDetails.data());
+                                            
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    }else{
+      // user not logged in
+      await Future.delayed(const Duration(milliseconds: 5000), null);
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
-    // user not logged in
-    await Future.delayed(const Duration(milliseconds: 5000), null);
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      checkUser();
-    });
   }
 
   @override
