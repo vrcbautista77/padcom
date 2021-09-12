@@ -105,20 +105,20 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 10),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Name',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.secondary,
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10, bottom: 10),
+              //   child: Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: Text(
+              //       'Name',
+              //       style: TextStyle(
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.bold,
+              //         color: AppColor.secondary,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -182,23 +182,89 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ],
               ),
+               SizedBox(
+                height: 20,
+              ),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: TextFormField(
+                      controller: _firstNameController,
+                      textCapitalization: TextCapitalization.words,
+                      enableInteractiveSelection: false,
+                      decoration: new InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xFFEFEFEF),
+                        hintText: 'Gender',
+                        counterText: "",
+                        labelText: 'Gender',
+                        labelStyle: TextStyle(
+                          height: 1,
+                        ),
+                        contentPadding: EdgeInsets.all(15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: AppColor.primary,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: AppColor.secondary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 30,
+                    child: TextFormField(
+                      controller: _lastNameController,
+                      textCapitalization: TextCapitalization.words,
+                      enableInteractiveSelection: false,
+                      decoration: new InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xFFEFEFEF),
+                        hintText: 'City',
+                        counterText: "",
+                        labelText: 'City',
+                        labelStyle: TextStyle(
+                          height: 1,
+                        ),
+                        contentPadding: EdgeInsets.all(15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 10),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Email',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.secondary,
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10, bottom: 10),
+              //   child: Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: Text(
+              //       'Email',
+              //       style: TextStyle(
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.bold,
+              //         color: AppColor.secondary,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Container(
                 width: MediaQuery.of(context).size.width - 40,
                 child: TextFormField(
@@ -224,6 +290,81 @@ class _EditProfileState extends State<EditProfile> {
                       borderSide: BorderSide(color: Colors.black),
                     ),
                   ),
+                ),
+              ),
+                SizedBox(
+                height: 20,
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10, bottom: 10),
+              //   child: Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: Text(
+              //       'Bio',
+              //       style: TextStyle(
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.bold,
+              //         color: AppColor.secondary,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Container(
+                width: MediaQuery.of(context).size.width - 40,
+                child: TextFormField(
+                  controller: _bioController,
+                  textCapitalization: TextCapitalization.words,
+                  enableInteractiveSelection: false,
+                  decoration: new InputDecoration(
+                    filled: true,
+                    fillColor: Color(0xFFEFEFEF),
+                    hintText: 'Biography',
+                    counterText: "",
+                    labelText: 'Biography',
+                    labelStyle: TextStyle(
+                      height: 1,
+                    ),
+                    contentPadding: EdgeInsets.all(15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(color: Colors.amber),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+                 SizedBox(
+                height: 20,
+              ),
+                 Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.grey[300],
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Text(
+                      'ATHLETE INFORMATION',
+                      style: TextStyle(
+                         color: AppColor.secondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Use to calculate calories, power nad more',
+                      style: TextStyle(
+                        color: Colors.blue.shade700,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(

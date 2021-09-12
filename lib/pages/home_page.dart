@@ -25,7 +25,7 @@ class _HomeState extends State<HomePage> {
     setState(() {
       switch (index) {
         case 0:
-          appBarTitle.value = 'Community';
+          appBarTitle.value = 'Home';
           break;
         case 1:
           appBarTitle.value = 'Trails';
@@ -125,7 +125,7 @@ class _HomeState extends State<HomePage> {
         unselectedFontSize: 11,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Community'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.add_road), label: 'Trails'),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Friends'),
           BottomNavigationBarItem(icon: Icon(Icons.face), label: 'Profile'),

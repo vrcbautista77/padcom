@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
 import 'package:padcom/pages/addgroup_modal.dart';
+import 'package:padcom/pages/addpost_modal.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
 import 'package:padcom/pages/post_item.dart';
 import 'package:padcom/pages/search_group.dart';
@@ -55,6 +56,24 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
     );
   }
 
+  Widget buttonCreatePost() {
+    return Container(
+      child: FloatingActionButton(
+        mini: true,
+      onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AddPostModal();
+            },
+          );
+        },
+        child: Icon(Icons.add),
+        tooltip: 'Create Post',
+      ),
+    );
+  }
+
   Widget buttonAddGroup() {
     return Container(
       child: FloatingActionButton(
@@ -86,6 +105,8 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
     );
   }
 
+  
+
   Widget buttonToggle() {
     return Container(
       child: FloatingActionButton(
@@ -115,6 +136,10 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+           Transform(
+            transform: Matrix4.translationValues(0.0, _translateButton.value * 2.55, 0.0),
+            child: buttonCreatePost(),
+          ),
           Transform(
             transform: Matrix4.translationValues(0.0, _translateButton.value * 1.7, 0.0),
             child: buttonAddGroup(),
@@ -153,40 +178,40 @@ class _CreatePostState extends State<CreatePostWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.secondary,
-      padding: EdgeInsets.fromLTRB(2, 10, 2, 10),
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            backgroundImage: AssetImage("assets/default_user.png"),
-            radius: 25,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: 70,
-            child: ExpandedTextField(
-              bgColor: Colors.grey[100],
-              controller: _post,
-              hintText: 'What\'s on your mind',
-              textColor: Colors.black,
-              style: TextStyle(fontSize: 12, color: Colors.black),
-              styleHint: TextStyle(fontSize: 12, color: Colors.black),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: Image(
-              image: AssetImage('assets/upload_media.png'),
-              height: 30,
-              width: 30,
-              color: Colors.white,
-            ),
-          )
-        ],
-      ),
+      // color: AppColor.secondary,
+      // padding: EdgeInsets.fromLTRB(10, 10, 2, 10),
+      // width: double.infinity,
+      // child: Row(
+      //   mainAxisAlignment: MainAxisAlignment.start,
+      //   children: [
+      //     CircleAvatar(
+      //       backgroundColor: Colors.white,
+      //       backgroundImage: AssetImage("assets/default_user.png"),
+      //       radius: 25,
+      //     ),
+      //     Container(
+      //       width: MediaQuery.of(context).size.width * 0.6,
+      //       height: 70,
+      //       child: ExpandedTextField(
+      //         bgColor: Colors.grey[100],
+      //         controller: _post,
+      //         hintText: 'What\'s on your mind',
+      //         textColor: Colors.black,
+      //         style: TextStyle(fontSize: 12, color: Colors.black),
+      //         styleHint: TextStyle(fontSize: 12, color: Colors.black),
+      //       ),
+      //     ),
+      //     GestureDetector(
+      //       onTap: () {},
+      //       child: Image(
+      //         image: AssetImage('assets/upload_media.png'),
+      //         height: 30,
+      //         width: 30,
+      //         color: Colors.white,
+      //       ),
+      //     )
+  //       ],
+  //     ),
     );
   }
 }
