@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
+import 'package:padcom/global_variables.dart';
 import 'package:padcom/pages/edit_profile_page.dart';
 
 class Profile extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ProfileState extends State<Profile> {
                         width: 50,
                       ),
                       Text(
-                        'Jhon Albert Tuliao'.toUpperCase(),
+                        globalUser.fname + " " + globalUser.lname,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -72,7 +73,7 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   Text(
-                    'tuliaojajan@gmail.com',
+                    globalUser.email,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -85,7 +86,7 @@ class _ProfileState extends State<Profile> {
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: '22 ',
+                        text: globalUser.age + " ",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 11,
@@ -109,7 +110,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       TextSpan(
-                        text: '40 ',
+                        text: globalUser.weight.toString() + ' ',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 11,
@@ -124,30 +125,30 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                      TextSpan(
-                        text: ' | ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '179.2 ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'cm',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+                      // TextSpan(
+                      //   text: ' | ',
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: 14,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // TextSpan(
+                      //   text: '179.2 ',
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: 11,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // TextSpan(
+                      //   text: 'cm',
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: 11,
+                      //     fontWeight: FontWeight.normal,
+                      //   ),
+                      // ),
                     ]),
                   ),
                   SizedBox(
@@ -260,7 +261,7 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Background:',
+                    'Bio:',
                     style: TextStyle(
                       color: AppColor.primary,
                       fontWeight: FontWeight.normal,
@@ -271,32 +272,14 @@ class _ProfileState extends State<Profile> {
                     height: 10,
                   ),
                   Text(
-                    'My name is Alice and I\'m a developer Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
+                    globalUser.bio,
                     style: TextStyle(
                       color: Colors.black,
                       fontStyle: FontStyle.italic,
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                          backgroundColor: AppColor.secondary,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                      child: Text(
-                        'Add Friend',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
+              
                   SizedBox(
                     height: 10,
                   ),

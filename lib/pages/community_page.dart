@@ -137,24 +137,24 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
            Transform(
-            transform: Matrix4.translationValues(0.0, _translateButton.value * 2.55, 0.0),
+            transform: Matrix4.translationValues(0.0, _translateButton.value * 0.8, 0.0),
             child: buttonCreatePost(),
           ),
-          Transform(
-            transform: Matrix4.translationValues(0.0, _translateButton.value * 1.7, 0.0),
-            child: buttonAddGroup(),
-          ),
-          Transform(
-            transform: Matrix4.translationValues(0.0, _translateButton.value * 0.85, 0.0),
-            child: buttonSearchGroup(),
-          ),
+          // Transform(
+          //   transform: Matrix4.translationValues(0.0, _translateButton.value * 1.7, 0.0),
+          //   child: buttonAddGroup(),
+          // ),
+          // Transform(
+          //   transform: Matrix4.translationValues(0.0, _translateButton.value * 0.85, 0.0),
+          //   child: buttonSearchGroup(),
+          // ),
           buttonToggle(),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CreatePostWidget(),
+            // CreatePostWidget(),
             PostItem(),
             PostItem(),
             PostItem(),
@@ -178,40 +178,40 @@ class _CreatePostState extends State<CreatePostWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: AppColor.secondary,
-      // padding: EdgeInsets.fromLTRB(10, 10, 2, 10),
-      // width: double.infinity,
-      // child: Row(
-      //   mainAxisAlignment: MainAxisAlignment.start,
-      //   children: [
-      //     CircleAvatar(
-      //       backgroundColor: Colors.white,
-      //       backgroundImage: AssetImage("assets/default_user.png"),
-      //       radius: 25,
-      //     ),
-      //     Container(
-      //       width: MediaQuery.of(context).size.width * 0.6,
-      //       height: 70,
-      //       child: ExpandedTextField(
-      //         bgColor: Colors.grey[100],
-      //         controller: _post,
-      //         hintText: 'What\'s on your mind',
-      //         textColor: Colors.black,
-      //         style: TextStyle(fontSize: 12, color: Colors.black),
-      //         styleHint: TextStyle(fontSize: 12, color: Colors.black),
-      //       ),
-      //     ),
-      //     GestureDetector(
-      //       onTap: () {},
-      //       child: Image(
-      //         image: AssetImage('assets/upload_media.png'),
-      //         height: 30,
-      //         width: 30,
-      //         color: Colors.white,
-      //       ),
-      //     )
-  //       ],
-  //     ),
+      color: AppColor.secondary,
+      padding: EdgeInsets.fromLTRB(10, 10, 2, 10),
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.white,
+            backgroundImage: AssetImage("assets/default_user.png"),
+            radius: 25,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 70,
+            child: ExpandedTextField(
+              bgColor: Colors.grey[100],
+              controller: _post,
+              hintText: 'What\'s on your mind',
+              textColor: Colors.black,
+              style: TextStyle(fontSize: 12, color: Colors.black),
+              styleHint: TextStyle(fontSize: 12, color: Colors.black),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: Image(
+              image: AssetImage('assets/upload_media.png'),
+              height: 30,
+              width: 30,
+              color: Colors.white,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

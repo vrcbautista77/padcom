@@ -351,6 +351,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(
               height: 20,
             ),
+            isLoading == false ?
             Container(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: ExpandedButton(
@@ -386,7 +387,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     return;
                   }
 
-                  try {
+                  // try {
                     var checkEmail =  await FirebaseFirestore.instance.collection("users").where('email', isEqualTo: emailController.text).get();
                     if(checkEmail.docs.length > 0){
                       setState(() {
@@ -416,22 +417,23 @@ class _RegisterPageState extends State<RegisterPage> {
                               builder: (context) => EditProfile(
                                     from: "login",
                                   )));
+                      return;
                     }
 
                     //set global user variable
                     globalUser = User.fromDB(
                         id: checkUserDetails.id, data: checkUserDetails.data());
-                  } catch (err) {
-                    showSnackbar(context, message: err.toString());
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }
+                  // } catch (err) {
+                  //   showSnackbar(context, message: err.toString());
+                  //   setState(() {
+                  //     isLoading = false;
+                  //   });
+                  // }
                 },
                 titleAlignment: Alignment.center,
                 titleColor: Colors.white,
               ),
-            ),
+            ) : CircularProgressIndicator(),
             SizedBox(
               height: 20,
             ),

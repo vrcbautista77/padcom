@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:padcom/global_functions.dart';
 import 'package:padcom/global_variables.dart';
 import 'package:padcom/models/user_model.dart';
 import 'package:padcom/pages/home_page.dart';
@@ -23,6 +24,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _genderController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
   TextEditingController _birthdayController = TextEditingController();
+  DateTime birthDate;
 
   bool _isLoading = false;
   @override
@@ -63,46 +65,58 @@ class _EditProfileState extends State<EditProfile> {
                   return;
                 }
 
-                var currentUser = FirebaseAuth.FirebaseAuth.instance.currentUser;
-                final User newUser = User(
-                  id: currentUser.uid, 
-                  email: currentUser.email,
-                  fname: _firstNameController.text,
-                  lname: _lastNameController.text,
-                  gender: _genderController.text,
-                  age:_ageController.text,
-                  // birthDate: DateTime(_birthdayController.text); 
-                  city: _cityController.text,
-                  weight: double.parse(_weightController.text),
-                  photo: currentUser.photoURL
-                  );
+                try {
+                  var currentUser =
+                      FirebaseAuth.FirebaseAuth.instance.currentUser;
+                  final User newUser = User(
+                      id: currentUser.uid,
+                      email: currentUser.email,
+                      fname: _firstNameController.text,
+                      lname: _lastNameController.text,
+                      gender: _genderController.text,
+                      age: _ageController.text,
+                      bio: _bioController.text,
+                      birthDate: birthDate,
+                      city: _cityController.text,
+                      weight: double.parse(_weightController.text),
+                      photo: currentUser.photoURL);
 
-                await FirebaseFirestore.instance.collection("users").doc(currentUser.uid)
-                    .set({
-                      'email': currentUser.email,
-                      'fname': _firstNameController.text,
-                      'lname': _lastNameController.text,
-                      'age': _ageController.text,
-                      'city': _cityController.text,
-                      'bio': _bioController.text,
-                      'gender': _genderController.text,
-                      'weight': double.parse(_weightController.text),
-                      'birthdate': _birthdayController.text,
-                      'status': "pending",
-                      'photo': currentUser.photoURL
-                    })
-                    .then((value) => print("User Added"))
-                    .catchError((error) => print("Failed to add user: $error"));
+                  await FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(currentUser.uid)
+                      .set({
+                        'email': currentUser.email,
+                        'fname': _firstNameController.text,
+                        'lname': _lastNameController.text,
+                        'age': _ageController.text,
+                        'city': _cityController.text,
+                        'bio': _bioController.text,
+                        'gender': _genderController.text,
+                        'weight': double.parse(_weightController.text),
+                        'birthdate': _birthdayController.text,
+                        'status': "pending",
+                        'photo': currentUser.photoURL
+                      })
+                      .then((value) => print("User Added"))
+                      .catchError(
+                          (error) => print("Failed to add user: $error"));
 
-                setState(() {
-                  _isLoading = false;
-                });
+                  setState(() {
+                    _isLoading = false;
+                  });
 
-                // set global user
-                globalUser = newUser;
+                  // set global user
+                  globalUser = newUser;
 
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => HomePage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                } catch (error) {
+                  showSnackbar(context, message: error.toString());
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  return;
+                }
               },
               child: Text(
                 _isLoading == false ? 'Save' : "Saving...",
@@ -265,6 +279,8 @@ class _EditProfileState extends State<EditProfile> {
                             date.month.toString() +
                             '/' +
                             date.day.toString();
+
+                        birthDate = date;
                       },
                       currentTime: DateTime.now(),
                     );

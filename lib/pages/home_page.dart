@@ -5,7 +5,9 @@ import 'package:padcom/pages/community_page.dart';
 import 'package:padcom/pages/edit_profile_page.dart';
 import 'package:padcom/pages/friends_page.dart';
 import 'package:padcom/pages/login_page.dart';
+import 'package:padcom/pages/map_page.dart';
 import 'package:padcom/pages/profile_page.dart';
+import 'package:padcom/pages/search_group.dart';
 import 'package:padcom/pages/trail_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,9 +33,12 @@ class _HomeState extends State<HomePage> {
           appBarTitle.value = 'Trails';
           break;
         case 2:
-          appBarTitle.value = 'Friends';
+          appBarTitle.value = 'Map';
           break;
         case 3:
+          appBarTitle.value = 'Community';
+          break;
+        case 4:
           appBarTitle.value = 'Profile';
           break;
         default:
@@ -114,7 +119,8 @@ class _HomeState extends State<HomePage> {
         children: [
           CommunityPage(),
           TrailPage(),
-          FriensPage(),
+          MapPage(),
+          SearchGroupPage(),
           Profile(),
         ],
       ), // new
@@ -127,7 +133,8 @@ class _HomeState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.add_road), label: 'Trails'),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Friends'),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Community'),
           BottomNavigationBarItem(icon: Icon(Icons.face), label: 'Profile'),
         ],
         currentIndex: _currentIndex,

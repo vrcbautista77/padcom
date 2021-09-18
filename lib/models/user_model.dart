@@ -11,6 +11,7 @@ class User {
   String gender;
   double weight;
   String photo;
+  String bio;
 
   User({
     @required this.id,
@@ -22,7 +23,8 @@ class User {
     this.birthDate,
     this.gender,
     this.weight,
-    this.photo
+    this.photo,
+    this.bio,
   });
 
   static final empty = User(id: '', email: '');
@@ -35,6 +37,7 @@ class User {
     this.age = data['age'] ?? '';
     this.city = data['city'] ?? '';
     this.gender = data['gender'] ?? '';
+    this.bio = data['bio'] ?? '';
     this.weight = (data['weight'] ?? 0.00).toDouble();
   }
 }

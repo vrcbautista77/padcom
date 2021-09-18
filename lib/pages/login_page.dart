@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseUser;
 import 'package:flutter/material.dart';
+import 'package:padcom/constants/color.dart';
 import 'package:padcom/global_functions.dart';
 import 'package:padcom/global_variables.dart';
 import 'package:padcom/models/user_model.dart';
@@ -196,9 +197,9 @@ class _LoginPageState extends State<LoginPage> {
                                         ],
                                         gradient: new LinearGradient(
                                             colors: [
-                                              Colors.orange,
-                                              Colors.orangeAccent,
-                                              Colors.deepOrange,
+                                              AppColor.accent,
+                                              AppColor.primary,
+                                              AppColor.secondary,
                                             ],
                                             begin: const FractionalOffset(
                                                 0.0, 1.0),
@@ -244,6 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                                                       EditProfile(
                                                         from: "login",
                                                       )));
+                                          return;
                                         }
 
                                         //set global user variable
