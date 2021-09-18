@@ -109,7 +109,7 @@ class _MyAppState extends State<RootPage> {
                         Container(
                           height: 200.0,
                           child: Image.asset(
-                            'assets/test_logo.jpg',
+                            'assets/Logo.png',
                             fit: BoxFit.contain,
                           ),
                         ),
