@@ -36,17 +36,17 @@ class UserProvider {
   //   });
   // }
 
-  // Future<LoginSuccessStatus> loginWithEmailAndPassword({@required String email, @required String password}) async {
-  //   assert(email != null && password != null);
+  Future<LoginSuccessStatus> loginWithEmailAndPassword({@required String email, @required String password}) async {
+    assert(email != null && password != null);
 
-  //   try {
-  //     await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
 
-  //     return LoginSuccessStatus.ok;
-  //   } on Exception catch(error){
-  //     throw error;
-  //   }
-  // }
+      return LoginSuccessStatus.ok;
+    } on Exception catch(error){
+      throw error;
+    }
+  }
 
   Future<LoginSuccessStatus> logInWithFacebook() async {
     try {
@@ -125,29 +125,20 @@ class UserProvider {
     }
   }
 
-  // Future<User> normalSignUp(User userDetail) async {
-  //   try {
-  //     final firebase_auth.User user = 
-  //       await _firebaseAuth.createUserWithEmailAndPassword(
-  //         email: userDetail.account.email, 
-  //         password: userDetail.account.password)
-  //         .then((userCredential) {
-  //           return userCredential.user;
-  //         });
-
-  //     final batch = FirebaseFirestore.instance.batch();
-
-  //     batch.set(userDetailsCollection.doc(user.uid), userDetail.toSignUp());
-
-  //     await batch.commit();
-
-  //     await user.reload();
-
-  //     return user.toUser;
-  //   } on Exception catch (error) {
-  //     throw error;
-  //   }
-  // }
+  Future<User> normalSignUp({String email, String password}) async {
+    try {
+      final firebase_auth.User user = 
+        await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, 
+          password: password)
+          .then((userCredential) {
+            return userCredential.user;
+          });
+      return user.toUser;
+    } on Exception catch (error) {
+      throw error;
+    }
+  }
 
   // Future<User> googleSignUp(User userDetail) async {
   //   try {

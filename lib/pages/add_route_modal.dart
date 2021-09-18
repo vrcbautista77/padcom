@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:padcom/constants/color.dart';
-import 'package:padcom/globals.dart';
+import 'package:padcom/global_variables.dart';
 import 'package:padcom/pages/app_dropdown.dart';
 import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/models/global_data.dart';
 import 'package:padcom/pages/community_page.dart';
-import 'package:padcom/pages/edit_profile.dart';
+import 'package:padcom/pages/edit_profile_page.dart';
 import 'package:padcom/pages/friends_page.dart';
 import 'package:padcom/pages/login_page.dart';
 import 'package:padcom/pages/profile_page.dart';

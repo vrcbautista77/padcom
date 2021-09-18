@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:padcom/globals.dart';
+import 'package:padcom/global_variables.dart';
 import 'package:padcom/models/user_model.dart';
 import 'package:padcom/pages/home_page.dart';
 

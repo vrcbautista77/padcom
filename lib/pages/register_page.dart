@@ -1,5 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as FirebaseUser;
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
+import 'package:padcom/global_functions.dart';
+import 'package:padcom/global_variables.dart';
+import 'package:padcom/models/user_model.dart';
+import 'package:padcom/pages/edit_profile_page.dart';
+import 'package:padcom/provider/user.dart';
 
 import 'expanded_button.dart';
 
@@ -11,8 +18,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final userProvider = UserProvider();
+
+  final fNameController = TextEditingController();
+  final lNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
   bool isHidePassword = true;
   bool isHideConfirmPassword = true;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +92,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             Image(
                               image: AssetImage("assets/default_user.png"),
                             ),
-                            Center(child: Icon(Icons.camera))
                           ],
                         ),
                       ),
@@ -85,84 +100,86 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 10),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Name',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.secondary,
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width / 2 - 30,
-                  child: TextFormField(
-                    textCapitalization: TextCapitalization.words,
-                    enableInteractiveSelection: false,
-                    decoration: new InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFFEFEFEF),
-                      hintText: 'First Name',
-                      counterText: "",
-                      labelText: 'First Name',
-                      labelStyle: TextStyle(
-                        height: 1,
-                      ),
-                      contentPadding: EdgeInsets.all(15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: AppColor.primary,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: AppColor.secondary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2 - 30,
-                  child: TextFormField(
-                    textCapitalization: TextCapitalization.words,
-                    enableInteractiveSelection: false,
-                    decoration: new InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFFEFEFEF),
-                      hintText: 'Last Name',
-                      counterText: "",
-                      labelText: 'Last Name',
-                      labelStyle: TextStyle(
-                        height: 1,
-                      ),
-                      contentPadding: EdgeInsets.all(15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(color: Colors.amber),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 10, bottom: 10),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text(
+            //       'Name',
+            //       style: TextStyle(
+            //         fontSize: 18,
+            //         fontWeight: FontWeight.bold,
+            //         color: AppColor.secondary,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     Container(
+            //       width: MediaQuery.of(context).size.width / 2 - 30,
+            //       child: TextFormField(
+            //         controller: fNameController,
+            //         textCapitalization: TextCapitalization.words,
+            //         enableInteractiveSelection: false,
+            //         decoration: new InputDecoration(
+            //           filled: true,
+            //           fillColor: Color(0xFFEFEFEF),
+            //           hintText: 'First Name',
+            //           counterText: "",
+            //           labelText: 'First Name',
+            //           labelStyle: TextStyle(
+            //             height: 1,
+            //           ),
+            //           contentPadding: EdgeInsets.all(15),
+            //           border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(5.0),
+            //             borderSide: BorderSide(
+            //               color: AppColor.primary,
+            //             ),
+            //           ),
+            //           enabledBorder: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(5.0),
+            //             borderSide: BorderSide(
+            //               color: AppColor.secondary,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       width: MediaQuery.of(context).size.width / 2 - 30,
+            //       child: TextFormField(
+            //         controller: lNameController,
+            //         textCapitalization: TextCapitalization.words,
+            //         enableInteractiveSelection: false,
+            //         decoration: new InputDecoration(
+            //           filled: true,
+            //           fillColor: Color(0xFFEFEFEF),
+            //           hintText: 'Last Name',
+            //           counterText: "",
+            //           labelText: 'Last Name',
+            //           labelStyle: TextStyle(
+            //             height: 1,
+            //           ),
+            //           contentPadding: EdgeInsets.all(15),
+            //           border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(5.0),
+            //             borderSide: BorderSide(color: Colors.amber),
+            //           ),
+            //           enabledBorder: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(5.0),
+            //             borderSide: BorderSide(color: Colors.black),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 20,
             ),
@@ -183,6 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
             Container(
               width: MediaQuery.of(context).size.width - 40,
               child: TextFormField(
+                controller: emailController,
                 textCapitalization: TextCapitalization.words,
                 enableInteractiveSelection: false,
                 decoration: new InputDecoration(
@@ -228,6 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Container(
                   width: MediaQuery.of(context).size.width - 40,
                   child: TextFormField(
+                    controller: passwordController,
                     obscureText: isHidePassword,
                     textCapitalization: TextCapitalization.words,
                     enableInteractiveSelection: false,
@@ -261,7 +280,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           isHidePassword = !isHidePassword;
                         });
                       },
-                      icon: Icon(isHidePassword ? Icons.visibility_off : Icons.visibility)),
+                      icon: Icon(isHidePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility)),
                 ),
               ],
             ),
@@ -287,6 +308,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Container(
                   width: MediaQuery.of(context).size.width - 40,
                   child: TextFormField(
+                    controller: confirmPasswordController,
                     obscureText: isHideConfirmPassword,
                     textCapitalization: TextCapitalization.words,
                     enableInteractiveSelection: false,
@@ -320,7 +342,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           isHideConfirmPassword = !isHideConfirmPassword;
                         });
                       },
-                      icon: Icon(isHideConfirmPassword ? Icons.visibility_off : Icons.visibility)),
+                      icon: Icon(isHideConfirmPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility)),
                 ),
               ],
             ),
@@ -336,7 +360,74 @@ class _RegisterPageState extends State<RegisterPage> {
                 elevation: 1,
                 title: 'Submit',
                 titleFontSize: 14,
-                onTap: () {},
+                onTap: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  if (emailController.text == "" ||
+                      passwordController.text == "" ||
+                      confirmPasswordController.text == "" ||
+                      passwordController.text.length <= 6) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    showSnackbar(context,
+                        message: "Please fill up all incomplete fields");
+                    return;
+                  }
+
+                  if(passwordController.text != confirmPasswordController.text){
+                    setState(() {
+                      isLoading = false;
+                    });
+                    showSnackbar(context,
+                        message: "Password do not match");
+                    return;
+                  }
+
+                  try {
+                    var checkEmail =  await FirebaseFirestore.instance.collection("users").where('email', isEqualTo: emailController.text).get();
+                    if(checkEmail.docs.length > 0){
+                      setState(() {
+                        isLoading = false;
+                      });
+                      showSnackbar(context,
+                          message: "Email is already taken");
+                      return;
+                    }
+
+                    await userProvider.normalSignUp(
+                        email: emailController.text,
+                        password: passwordController.text);
+
+                    var uid =
+                        FirebaseUser.FirebaseAuth.instance.currentUser.uid;
+                    var checkUserDetails = await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(uid)
+                        .get();
+
+                    if (!checkUserDetails.exists) {
+                      // go to edit profile
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProfile(
+                                    from: "login",
+                                  )));
+                    }
+
+                    //set global user variable
+                    globalUser = User.fromDB(
+                        id: checkUserDetails.id, data: checkUserDetails.data());
+                  } catch (err) {
+                    showSnackbar(context, message: err.toString());
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                },
                 titleAlignment: Alignment.center,
                 titleColor: Colors.white,
               ),

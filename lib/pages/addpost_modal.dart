@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
+import 'package:padcom/global_variables.dart';
 import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:padcom/globals.dart';
 class AddPostModal extends StatefulWidget {
   const AddPostModal({Key key}) : super(key: key);
 

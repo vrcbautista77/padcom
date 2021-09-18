@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
-import 'package:padcom/pages/edit_profile.dart';
+import 'package:padcom/pages/edit_profile_page.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key key}) : super(key: key);
