@@ -5,19 +5,21 @@ import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:padcom/globals.dart';
+class AddPostModal extends StatefulWidget {
+  const AddPostModal({Key key}) : super(key: key);
 
-class AddGroupModal extends StatefulWidget {
-  const AddGroupModal({Key key}) : super(key: key);
+
 
   @override
-  _AddGroupModalState createState() => _AddGroupModalState();
+  _AddPostModalState createState() => _AddPostModalState();
 }
 
-class _AddGroupModalState extends State<AddGroupModal> {
-  TextEditingController _groupName = TextEditingController();
-  TextEditingController _description = TextEditingController();
+class _AddPostModalState extends State<AddPostModal> {
+  TextEditingController _postTitle = TextEditingController();
+  TextEditingController _postBody = TextEditingController();
+  // TextEditingController _postBody = TextEditingController();
 
-  CollectionReference groupCollection = FirebaseFirestore.instance.collection('groups');
+   CollectionReference postCollection = FirebaseFirestore.instance.collection('posts');
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +36,14 @@ class _AddGroupModalState extends State<AddGroupModal> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: Text('Add Group'),
+                  child: Text('Add Post'),
                 ),
                 IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     icon: Icon(
-                      Icons.close,
+                      Icons.add,
                       color: Colors.red,
                     ))
               ],
@@ -63,8 +65,8 @@ class _AddGroupModalState extends State<AddGroupModal> {
                       Container(
                         width: 150,
                         child: ClassicTextField(
-                          controller: _groupName,
-                          hintText: 'Group Name',
+                          controller: _postTitle,
+                          hintText: 'Create Post',
                           textAlign: TextAlign.left,
                           onChange: (value) {},
                         ),
@@ -77,8 +79,8 @@ class _AddGroupModalState extends State<AddGroupModal> {
                         height: 70,
                         child: ExpandedTextField(
                           bgColor: Colors.grey[100],
-                          controller: _description,
-                          hintText: 'Description',
+                          controller: _postBody,
+                          hintText: 'Post Body',
                           textColor: Colors.black,
                         ),
                       ),
@@ -99,25 +101,25 @@ class _AddGroupModalState extends State<AddGroupModal> {
                 elevation: 1,
                 title: 'Create',
                 titleFontSize: 14,
-                     onTap: () async {
-                  if(_groupName.text == '' || _description.text == ''){
+                 onTap: () async {
+                  if(_postTitle.text == '' || _postBody.text == ''){
                     _showSnackbar(context, message: "Please complete details");
                     return;
                   }
                   
-                  await groupCollection.add({
-                    'title': _groupName.text,
-                    'description': _description.text,
-                    'owner_id': globalUser.id,
+                  await postCollection.add({
+                    'title': _postTitle.text,
+                    'body': _postBody.text,
+                    'user_id': globalUser.id,
                     'user_name': globalUser.fname + " " + globalUser.lname,
                     'created_at': DateTime.now()
                   })
                   .then((value) {
                     Navigator.pop(context);
-                    _showSnackbar(context, message: "Group added successfully");
+                    _showSnackbar(context, message: "Post added successfully");
                   })
                   .catchError((error) {
-                      _showSnackbar(context, message: "Group denied");
+                      _showSnackbar(context, message: "Post denied");
                   });
                 },
                 titleAlignment: Alignment.center,
@@ -131,9 +133,10 @@ class _AddGroupModalState extends State<AddGroupModal> {
         ),
       ),
     );
+    
   }
-}
-  _showSnackbar(context, {@required String message}) {
+
+      _showSnackbar(context, {@required String message}) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(new SnackBar(
@@ -146,4 +149,5 @@ class _AddGroupModalState extends State<AddGroupModal> {
           ),
         ),
       ));
+  }
 }

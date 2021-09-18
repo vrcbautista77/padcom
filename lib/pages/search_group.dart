@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class SearchGroupPage extends StatefulWidget {
   SearchGroupPage({Key key}) : super(key: key);
 
@@ -11,6 +11,9 @@ class SearchGroupPage extends StatefulWidget {
 class _SearchGroupPageState extends State<SearchGroupPage> {
   TextEditingController _searchController = TextEditingController();
 
+    String searchValue = '';
+
+ Stream<QuerySnapshot> trailsCollectionStream = FirebaseFirestore.instance.collection('groups').orderBy('created_at').snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +42,11 @@ class _SearchGroupPageState extends State<SearchGroupPage> {
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 ),
                 child: TextField(
-                  onChanged: (text) {},
+                      onChanged: (text) {
+                      setState(() {
+                        searchValue = text;
+                                            });
+                    },
                   controller: _searchController,
                   style: TextStyle(fontSize: 16.0),
                   decoration: InputDecoration(
@@ -54,22 +61,40 @@ class _SearchGroupPageState extends State<SearchGroupPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              GroupTile(
-                subtitle: 'group made for something',
-                onTap: () {},
-                title: 'Bicom Group',
-              ),
-              GroupTile(
-                subtitle: 'power !!!!',
-                onTap: () {},
-                title: 'Team Payaman',
-              ),
-            ],
-          ),
-        ),
+        body:  StreamBuilder<QuerySnapshot>(
+        stream: trailsCollectionStream ,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          return ListView(
+          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        
+
+           if(searchValue != '' && !data['title'].contains(searchValue)){
+              return SizedBox();
+            }
+
+            return GroupTile(
+              // onTap: () {
+              //   showDialog(context: context, builder: (context) => TrailModal());
+              // },
+              title: data['title'] ?? '',
+              subtitle:'admin' + ':' + '' + data ['user_name'] ?? '\n',
+              subtitle1:data ['description'] ?? '',
+            
+             
+            );
+          }).toList(),
+        );
+        }
+      ),
       ),
     );
   }
@@ -80,11 +105,13 @@ class GroupTile extends StatelessWidget {
     Key key,
     this.title,
     this.subtitle,
+    this.subtitle1,
     this.profilePicture,
     this.onTap,
   }) : super(key: key);
   final String title;
   final String subtitle;
+  final String subtitle1;
   final String profilePicture;
   final VoidCallback onTap;
 
@@ -111,18 +138,40 @@ class GroupTile extends StatelessWidget {
                   title,
                   style: TextStyle(
                     color: AppColor.secondary,
-                    fontSize: 13,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
+
+                 subtitle: Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 10,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        subtitle1,
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      
+                    ],
                   ),
                 ),
+                
                 tileColor: Colors.white,
                 trailing: Container(
                   width: 110,
