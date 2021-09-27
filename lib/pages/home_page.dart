@@ -55,6 +55,7 @@ class _HomeState extends State<HomePage> {
       appBar: AppBar(
         title: Text(appBarTitle.value),
         centerTitle: true,
+        backgroundColor: Colors.blueGrey[900],
       ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -66,10 +67,16 @@ class _HomeState extends State<HomePage> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.blueGrey,
               ),
-              child: Text('Drawer Header'),
-            ),
+              
+                child: Image(
+                      fit: BoxFit.contain,
+                      image: AssetImage('assets/Logo.png'),
+                 ),
+              ),
+         
+
             ListTile(
               leading: Icon(Icons.history),
               title: const Text('Activities'),
@@ -79,7 +86,16 @@ class _HomeState extends State<HomePage> {
                 // Then close the drawer
                 Navigator.pop(context);
               },
+              
             ),
+
+                  const Divider(
+                          height: 1,
+                          thickness: 1,
+                          indent:15,
+                          endIndent: 50,
+                          color: Colors.black,
+                        ),
             ListTile(
               leading: Icon(Icons.favorite),
               title: const Text('Favorite'),
@@ -90,6 +106,13 @@ class _HomeState extends State<HomePage> {
                 Navigator.pop(context);
               },
             ),
+                  const Divider(
+                          height: 1,
+                          thickness: 1,
+                           indent:15,
+                          endIndent: 50,
+                          color: Colors.black,
+                        ),
             ListTile(
               leading: Icon(Icons.edit),
               title: const Text('Edit Profile'),
@@ -97,6 +120,15 @@ class _HomeState extends State<HomePage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
               },
             ),
+
+
+                   const Divider(
+                          height: 1,
+                          thickness: 1,
+                          indent:15,
+                          endIndent: 50,
+                          color: Colors.black,
+                        ),
             ListTile(
               leading: Icon(Icons.logout),
               title: _isLoading == false ?  Text('Logout') : Text('Logging out, please wait...'),
@@ -109,6 +141,8 @@ class _HomeState extends State<HomePage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
               },
             ),
+
+            
           ],
         ),
       ),

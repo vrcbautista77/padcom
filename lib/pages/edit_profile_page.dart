@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:padcom/global_functions.dart';
 import 'package:padcom/global_variables.dart';
@@ -25,6 +26,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _weightController = TextEditingController();
   TextEditingController _birthdayController = TextEditingController();
   DateTime birthDate;
+  
 
   bool _isLoading = false;
   @override
@@ -164,7 +166,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),
@@ -191,7 +193,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),
@@ -205,9 +207,14 @@ class _EditProfileState extends State<EditProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
+                      
                       width: MediaQuery.of(context).size.width / 2 - 30,
                       child: TextFormField(
                         controller: _ageController,
+                        keyboardType: TextInputType.number,
+                        // inputFormatters: <TextInputFormatter>[
+                        //   FilteringTextInputFormatter.allow(RegExp(r'[0-100]')),
+                        // ],
                         textCapitalization: TextCapitalization.words,
                         enableInteractiveSelection: false,
                         decoration: new InputDecoration(
@@ -226,7 +233,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),
@@ -253,7 +260,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),
@@ -302,13 +309,13 @@ class _EditProfileState extends State<EditProfile> {
                           height: 1,
                         ),
                         contentPadding: EdgeInsets.all(15),
-                        border: OutlineInputBorder(
+                        border: OutlineInputBorder( 
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(color: Colors.amber),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(color: Colors.black),
+                          borderSide: BorderSide(color: Colors.transparent),
                         ),
                       ),
                     ),
@@ -339,7 +346,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.transparent),
                       ),
                     ),
                   ),
@@ -396,6 +403,7 @@ class _EditProfileState extends State<EditProfile> {
                           labelStyle: TextStyle(
                             height: 1,
                           ),
+                          
                           contentPadding: EdgeInsets.all(15),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -403,7 +411,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),
@@ -412,14 +420,18 @@ class _EditProfileState extends State<EditProfile> {
                       width: MediaQuery.of(context).size.width / 2 - 30,
                       child: TextFormField(
                         controller: _weightController,
+                           keyboardType: TextInputType.number,
+                        // inputFormatters: <TextInputFormatter>[
+                        //   FilteringTextInputFormatter.allow(RegExp(r'[0-200]')),
+                        // ],
                         textCapitalization: TextCapitalization.words,
                         enableInteractiveSelection: false,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: Color(0xFFEFEFEF),
-                          hintText: 'Weight',
+                          hintText: 'Weight(kg)',
                           counterText: "",
-                          labelText: 'Weight',
+                          labelText: 'Weight(kg)',
                           labelStyle: TextStyle(
                             height: 1,
                           ),
@@ -430,7 +442,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: Colors.transparent),
                           ),
                         ),
                       ),

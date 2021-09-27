@@ -71,6 +71,7 @@ class _MyAppState extends State<RootPage> {
       var checkUserDetails = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
 
       if(!checkUserDetails.exists){
+        
         // go to edit profile
         Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile(
           from: "login",
@@ -93,6 +94,7 @@ class _MyAppState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900],
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(
@@ -141,7 +143,7 @@ class _MyAppState extends State<RootPage> {
                     child: Column(
                       children: <Widget>[
                         CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue))
+                            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white))
                       ],
                     ),
                   ),

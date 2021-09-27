@@ -30,11 +30,15 @@ class _LoginPageState extends State<LoginPage> {
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
+        
       },
+      
       child: Scaffold(
+         backgroundColor: Colors.blueGrey.shade900,
         appBar: null,
         body: SafeArea(
           child: SingleChildScrollView(
+            
             physics: ClampingScrollPhysics(),
             child: Container(
               child: SafeArea(
@@ -54,32 +58,52 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      Container(
+
+                        SizedBox(
+                        height: 20,
+                      ),
+
+                      // Container(
+                      //   height: 10,
+                      // ),
+                      // Container(
+                      //   child: Align(
+                      //     alignment: Alignment.centerLeft,
+                      //     child: (Text('LOGIN',
+                      //     style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 24.0))),
+                      //   )
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Align(
+                      //   alignment: Alignment.centerLeft,
+                      //   child: Text(
+                      //     'Enter your login credentials',
+                      //   ),
+                      // ),
+                      SizedBox(
                         height: 10,
                       ),
-                      Container(
+                       Padding(
+                        padding: const EdgeInsets.only(left: 20, bottom: 0),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Log In',
+                            'Email',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Enter your login credentials',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
                       Container(
                         margin: EdgeInsets.only(top: 20.0),
-                        height: 40.0,
+                        height: 50.0,
                         width: MediaQuery.of(context).size.width - 100,
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
@@ -87,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: new InputDecoration(
                             filled: true,
                             fillColor: Color(0xFFEFEFEF),
-                            hintText: "Email",
+                            hintText: "Enter Valid Email",
                             contentPadding: const EdgeInsets.only(
                                 top: 10.0,
                                 bottom: 10.0,
@@ -110,11 +134,78 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                       ),
+
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, bottom: 0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Password',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+
                       PasswordTextField(
                           passwordController: _passwordController),
-                      SizedBox(
-                        height: 10,
+                         
+                       SizedBox(
+                        height: 20,
                       ),
+                        Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Don't have an account?",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                       Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterPage()));
+                               
+                                  },
+                                  child: Text(" Sign Up",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                Text(
+                                  " Now",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                      SizedBox(
+                        height: 50,
+                      ),
+
+                          const Divider(
+                          height: 20,
+                          thickness: 1,
+                          indent: 5,
+                          endIndent: 5,
+                          color: Colors.white,
+                        ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+                  
                       Container(
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: isLoading == false
@@ -189,7 +280,7 @@ class _LoginPageState extends State<LoginPage> {
                                             new BorderRadius.circular(50.0),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey[400],
+                                            color: Colors.grey[900],
                                             blurRadius: 2.0,
                                             spreadRadius: 0.0,
                                             offset: Offset(2.0, 2.0),
@@ -200,6 +291,7 @@ class _LoginPageState extends State<LoginPage> {
                                               AppColor.accent,
                                               AppColor.primary,
                                               AppColor.secondary,
+
                                             ],
                                             begin: const FractionalOffset(
                                                 0.0, 1.0),
@@ -210,7 +302,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       child: Container(
                                         alignment: Alignment.center,
-                                        child: (Text('LOG IN',
+                                        child: (Text('Log-in',
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
@@ -282,7 +374,7 @@ class _LoginPageState extends State<LoginPage> {
                                             new BorderRadius.circular(50.0),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey,
+                                             color: Colors.grey[900],
                                             blurRadius: 2.0,
                                             spreadRadius: 0.0,
                                             offset: Offset(2.0, 2.0),
@@ -312,6 +404,9 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                   ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                   GestureDetector(
                                     onTap: () async {
                                       setState(() {
@@ -328,6 +423,7 @@ class _LoginPageState extends State<LoginPage> {
                                         isLoading = false;
                                       });
                                     },
+                                    
                                     child: Container(
                                       margin: EdgeInsets.only(
                                           top: 5.0, bottom: 5.0),
@@ -339,7 +435,7 @@ class _LoginPageState extends State<LoginPage> {
                                             new BorderRadius.circular(50.0),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey[350],
+                                             color: Colors.grey[900],
                                             blurRadius: 2.0,
                                             spreadRadius: 0.0,
                                             offset: Offset(2.0, 2.0),
@@ -377,37 +473,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: 10,
                       ),
-                        Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "Don't have an account?",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterPage()));
-                               
-                                  },
-                                  child: Text(" Sign Up",
-                                      style: TextStyle(
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                Text(
-                                  " Now",
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
+                     
                     ],
                   ),
                 ),
@@ -450,11 +516,13 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Stack(
       children: <Widget>[
+        
         Container(
           margin: EdgeInsets.only(top: 10.0),
-          height: 40.0,
+          height: 50.0,
           width: MediaQuery.of(context).size.width - 100,
           child: TextFormField(
             controller: widget.passwordController,
@@ -479,7 +547,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           child: Container(
             margin: EdgeInsets.only(top: 10.0, right: 5.0),
             width: 40.0,
-            height: 43.0,
+            height: 45.0,
             child: IconButton(
               iconSize: 25,
               icon: Icon(

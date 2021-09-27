@@ -33,73 +33,86 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
+        backgroundColor: Colors.blueGrey[900],
+      // appBar: AppBar(
+      //   title: Text('Register Account'),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: 140,
-                  width: double.infinity,
-                ),
-                Container(
-                  height: 100,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(50),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColor.accent,
-                        AppColor.secondary,
-                        AppColor.primary,
-                      ],
-                      begin: const FractionalOffset(0.0, 1.0),
-                      end: const FractionalOffset(1.0, 0.0),
-                      // stops:[0.8, 0.3, 0.1,],
-                      //tileMode: TileMode.clamp,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  left: MediaQuery.of(context).size.width / 2 - 40,
-                  child: Center(
-                      child: Container(
-                    height: 80,
-                    width: 80,
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(
-                        color: AppColor.accent,
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: ClipOval(
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Stack(
-                          children: [
-                            Image(
-                              image: AssetImage("assets/default_user.png"),
-                            ),
-                          ],
+                Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 78.0),
+                          width: 150,
+                          height: 150,
+                          child: Image(
+                            fit: BoxFit.fill,
+                            image: AssetImage('assets/Logo.png'),
+                          ),
                         ),
                       ),
-                    ),
-                  )),
-                ),
-              ],
-            ),
+            // Stack(
+            //   children: [
+            //     Container(
+            //       height: 140,
+            //       width: double.infinity,
+            //     ),
+            //     Container(
+            //       height: 100,
+            //       width: double.infinity,
+            //       padding: EdgeInsets.all(50),
+            //       decoration: BoxDecoration(
+            //         gradient: LinearGradient(
+            //           colors: [
+            //             AppColor.accent,
+            //             AppColor.secondary,
+            //             AppColor.primary,
+            //           ],
+            //           begin: const FractionalOffset(0.0, 1.0),
+            //           end: const FractionalOffset(1.0, 0.0),
+            //           // stops:[0.8, 0.3, 0.1,],
+            //           //tileMode: TileMode.clamp,
+            //         ),
+            //       ),
+            //     ),
+            //     Positioned(
+            //       bottom: 10,
+            //       left: MediaQuery.of(context).size.width / 2 - 40,
+            //       child: Center(
+            //           child: Container(
+            //         height: 80,
+            //         width: 80,
+            //         padding: EdgeInsets.all(5),
+            //         decoration: BoxDecoration(
+            //           color: Colors.transparent,
+            //           border: Border.all(
+            //             color: AppColor.accent,
+            //             width: 1.5,
+            //           ),
+            //           borderRadius: BorderRadius.circular(100),
+            //         ),
+            //         child: ClipOval(
+            //           child: Container(
+            //             height: 80,
+            //             width: 80,
+            //             decoration: BoxDecoration(
+            //               color: Colors.white,
+            //             ),
+            //             child: Stack(
+            //               children: [
+            //                 Image(
+            //                   image: AssetImage("assets/Logo.png"),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       )),
+            //     ),
+            //   ],
+            // ),
             // SizedBox(
             //   height: 20,
             // ),
@@ -181,10 +194,11 @@ class _RegisterPageState extends State<RegisterPage> {
             //   ],
             // ),
             SizedBox(
-              height: 20,
+              height: 50,
             ),
+
             Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 10),
+                padding: const EdgeInsets.only(left: 48, bottom: 10),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -192,13 +206,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColor.secondary,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width - 40,
+              width: MediaQuery.of(context).size.width - 90,
+              height: 50.0,
               child: TextFormField(
                 controller: emailController,
                 textCapitalization: TextCapitalization.words,
@@ -219,7 +234,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: BorderSide(color: Colors.transparent),
                   ),
                 ),
               ),
@@ -228,7 +243,7 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 10),
+               padding: const EdgeInsets.only(left: 48, bottom: 10),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -236,7 +251,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColor.secondary,
+                     color: Colors.white,
                   ),
                 ),
               ),
@@ -244,7 +259,8 @@ class _RegisterPageState extends State<RegisterPage> {
             Stack(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width - 40,
+                 width: MediaQuery.of(context).size.width - 90,
+                  height: 50.0,
                   child: TextFormField(
                     controller: passwordController,
                     obscureText: isHidePassword,
@@ -266,7 +282,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.transparent),
                       ),
                     ),
                   ),
@@ -290,7 +306,7 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 15),
+              padding: const EdgeInsets.only(left: 48, bottom: 10),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -298,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColor.secondary,
+                      color: Colors.white,
                   ),
                 ),
               ),
@@ -306,7 +322,8 @@ class _RegisterPageState extends State<RegisterPage> {
             Stack(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width - 40,
+               width: MediaQuery.of(context).size.width - 90,
+                height: 50.0,
                   child: TextFormField(
                     controller: confirmPasswordController,
                     obscureText: isHideConfirmPassword,
@@ -324,11 +341,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       contentPadding: EdgeInsets.all(15),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(color: Colors.amber),
+                        borderSide: BorderSide(color: Colors.amber),  
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.transparent),
                       ),
                     ),
                   ),
@@ -349,17 +366,19 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 100,
             ),
             isLoading == false ?
             Container(
+              height: 50.0,
+              width: 350.0,
               padding: EdgeInsets.only(left: 20, right: 20),
               child: ExpandedButton(
                 buttonColor: AppColor.secondary,
                 borderRadius: 20,
                 expanded: true,
                 elevation: 1,
-                title: 'Submit',
+                title: 'Register',
                 titleFontSize: 14,
                 onTap: () async {
                   setState(() {

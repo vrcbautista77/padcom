@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
 import 'package:padcom/global_variables.dart';
@@ -19,18 +20,19 @@ class _ProfileState extends State<Profile> {
           children: [
             Container(
               padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      AppColor.accent,
-                      AppColor.secondary,
-                      AppColor.primary,
-                    ],
-                    begin: const FractionalOffset(0.0, 1.0),
-                    end: const FractionalOffset(1.0, 0.0),
-                    // stops:[0.8, 0.3, 0.1,],
-                    tileMode: TileMode.clamp),
-              ),
+              color: Colors.blueGrey[700],
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //       colors: [
+              //         AppColor.accent,
+              //         AppColor.secondary,
+              //         AppColor.primary,
+              //       ],
+              //       begin: const FractionalOffset(0.0, 1.0),
+              //       end: const FractionalOffset(1.0, 0.0),
+              //       // stops:[0.8, 0.3, 0.1,],
+              //       tileMode: TileMode.clamp),
+              // ),
               alignment: Alignment.center,
               child: Column(
                 children: [
@@ -125,30 +127,23 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                      // TextSpan(
-                      //   text: ' | ',
-                      //   style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontSize: 14,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                      // TextSpan(
-                      //   text: '179.2 ',
-                      //   style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontSize: 11,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                      // TextSpan(
-                      //   text: 'cm',
-                      //   style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontSize: 11,
-                      //     fontWeight: FontWeight.normal,
-                      //   ),
-                      // ),
+                      TextSpan(
+                        text: ' | ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                 
+                      TextSpan(
+                        text: globalUser.gender + " ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                     ]),
                   ),
                   SizedBox(
@@ -256,9 +251,10 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(20),
+              // alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(top:20, bottom: 0, left: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Bio:',
