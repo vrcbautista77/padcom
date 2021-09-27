@@ -22,6 +22,13 @@ class _MapComponentState extends State<MapComponent> {
   Marker _origin;
   Marker _destination;
   Directions _info;
+  BitmapDescriptor mapMarker;
+
+  @override
+  void initState() {
+    super.initState();
+    setCustomMarker();
+  }
 
   @override
   void dispose() {
@@ -29,6 +36,10 @@ class _MapComponentState extends State<MapComponent> {
     super.dispose();
   }
 
+  void setCustomMarker() async {
+    mapMarker = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/marker.png');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +60,7 @@ class _MapComponentState extends State<MapComponent> {
                 if (_info != null)
                   Polyline(
                     polylineId: const PolylineId('overview_polyline'),
-                    color: Colors.red,
+                    color: Colors.blue,
                     width: 5,
                     points: _info.polylinePoints
                         .map((e) => LatLng(e.latitude, e.longitude))
@@ -110,8 +121,7 @@ class _MapComponentState extends State<MapComponent> {
         _origin = Marker(
           markerId: const MarkerId('origin'),
           infoWindow: const InfoWindow(title: 'Origin'),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          icon: mapMarker,
           position: pos,
         );
         // Reset destination
@@ -127,7 +137,7 @@ class _MapComponentState extends State<MapComponent> {
         _destination = Marker(
           markerId: const MarkerId('destination'),
           infoWindow: const InfoWindow(title: 'Destination'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          icon: mapMarker,
           position: pos,
         );
       });
@@ -139,130 +149,3 @@ class _MapComponentState extends State<MapComponent> {
     }
   }
 }
-
-// class MapComponent extends StatefulWidget {
-//   MapComponent({Key key, @required this.originCoordinates, this.destinationCoordinates}) : super(key: key);
-
-//   final LatLng originCoordinates;
-//   final LatLng destinationCoordinates;
-
-//   @override
-//   _MapComponentState createState() => _MapComponentState();
-// }
-
-// class _MapComponentState extends State<MapComponent> {
-//   Completer<GoogleMapController> mapController = Completer();
-//   Marker _origin;
-//   Marker _destination;
-//   Directions _info;
-//   CameraPosition _initialCameraPosition;
-//   final directionsProvider = DirectionsRepository();
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _initialCameraPosition = CameraPosition(
-//       target: widget.originCoordinates,
-//       zoom: 8,
-//     );
-
-//     _addMarkerAndDirections();
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//   }
-
-//   void _onMapCreated(GoogleMapController controller) {
-//     mapController.complete(controller);
-//   }
-
-//   void _addMarkerAndDirections() async {
-//     setState(() {
-//       _origin = Marker(
-//         markerId: const MarkerId('origin'),
-//         infoWindow: const InfoWindow(title: 'Origin'),
-//         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-//         position: widget.originCoordinates,
-//       );
-
-//       // if destination is null dont mark destination
-//       if (widget.destinationCoordinates == null) {
-//         return;
-//       }
-
-//       _destination = Marker(
-//         markerId: const MarkerId('destination'),
-//         infoWindow: const InfoWindow(title: 'Destination'),
-//         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-//         position: widget.destinationCoordinates,
-//       );
-//     });
-
-//     // If destination is null, dont add directions
-//     if (widget.destinationCoordinates == null) {
-//       return;
-//     }
-
-//     final directions = await directionsProvider.getDirections(origin: _origin.position, destination: _destination.position);
-//     setState(() => _info = directions);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         height: 250,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         child: Stack(alignment: Alignment.center, children: [
-//           GoogleMap(
-//             myLocationButtonEnabled: false,
-//             // zoomControlsEnabled: false,
-//             initialCameraPosition: _initialCameraPosition,
-//             onMapCreated: _onMapCreated,
-//             markers: {if (_origin != null) _origin, if (_destination != null) _destination},
-//             polylines: {
-//               if (_info != null)
-//                 Polyline(
-//                   polylineId: const PolylineId('overview_polyline'),
-//                   color: Colors.red,
-//                   width: 5,
-//                   points: _info.polylinePoints.map((e) => LatLng(e.latitude, e.longitude)).toList(),
-//                 ),
-//             },
-//             onLongPress: _addMarkerAndDirections,
-//           ),
-//           if (_info != null)
-//             Positioned(
-//               top: 20.0,
-//               child: Container(
-//                 padding: const EdgeInsets.symmetric(
-//                   vertical: 6.0,
-//                   horizontal: 12.0,
-//                 ),
-//                 decoration: BoxDecoration(
-//                   color: Colors.yellowAccent,
-//                   borderRadius: BorderRadius.circular(20.0),
-//                   boxShadow: const [
-//                     BoxShadow(
-//                       color: Colors.black26,
-//                       offset: Offset(0, 2),
-//                       blurRadius: 6.0,
-//                     )
-//                   ],
-//                 ),
-//                 child: Text(
-//                   '${_info.totalDistance}, ${_info.totalDuration}',
-//                   style: const TextStyle(
-//                     fontSize: 18.0,
-//                     fontWeight: FontWeight.w600,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//         ]));
-//   }
-// }
