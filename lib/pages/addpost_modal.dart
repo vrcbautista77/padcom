@@ -5,6 +5,8 @@ import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 class AddPostModal extends StatefulWidget {
   const AddPostModal({Key key}) : super(key: key);
 
@@ -103,7 +105,12 @@ class _AddPostModalState extends State<AddPostModal> {
                 titleFontSize: 14,
                  onTap: () async {
                   if(_postTitle.text == '' || _postBody.text == ''){
-                    _showSnackbar(context, message: "Please complete details");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.info(
+                          message: "Please complete required details to proceed",
+                        ),
+                    );
                     return;
                   }
                   
@@ -116,10 +123,20 @@ class _AddPostModalState extends State<AddPostModal> {
                   })
                   .then((value) {
                     Navigator.pop(context);
-                    _showSnackbar(context, message: "Post added successfully");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.success(
+                          message: "Post added successfully!",
+                        ),
+                    );
                   })
                   .catchError((error) {
-                      _showSnackbar(context, message: "Post denied");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Error Occured, please try again",
+                        ),
+                    );
                   });
                 },
                 titleAlignment: Alignment.center,
@@ -134,20 +151,5 @@ class _AddPostModalState extends State<AddPostModal> {
       ),
     );
     
-  }
-
-      _showSnackbar(context, {@required String message}) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(new SnackBar(
-        backgroundColor: Colors.black,
-        duration: Duration(seconds: 2),
-        content: new Text(
-          message,
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-      ));
   }
 }

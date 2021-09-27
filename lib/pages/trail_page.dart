@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:padcom/constants/color.dart';
+import 'package:padcom/models/trail_model.dart';
 import 'package:padcom/pages/add_route_modal.dart';
 import 'package:padcom/pages/app_dropdown.dart';
 import 'package:padcom/pages/trail_modal.dart';
@@ -17,7 +18,7 @@ class _TrailPageState extends State<TrailPage> {
   String difficultyValue = 'All';
   String searchValue = '';
 
-  Stream<QuerySnapshot> trailsCollectionStream = FirebaseFirestore.instance.collection('trails').orderBy('created_at').snapshots();
+  Stream<QuerySnapshot> trailsCollectionStream = FirebaseFirestore.instance.collection('trails').orderBy('createdAt').snapshots();
   
   @override
   Widget build(BuildContext context) {
@@ -92,25 +93,35 @@ class _TrailPageState extends State<TrailPage> {
             return Center(child: CircularProgressIndicator());
           }
 
+          if(snapshot.data.docs.length == 0){
+            return Center(child: Container(child: Text("No Trails Yet!"),));
+          }
+
           return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-            if(difficultyValue != "All"  && (difficultyValue != data['difficulty'])){
+            Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+            final Trail trail = Trail(id: document.id, data: data);
+
+            if(difficultyValue != "All"  && (difficultyValue != trail.difficulty)){
               return SizedBox();
             }
 
-            if(searchValue != '' && !data['title'].contains(searchValue)){
+            if(searchValue != '' && !trail.title.contains(searchValue)){
               return SizedBox();
             }
 
             return TrailTile(
               onTap: () {
-                showDialog(context: context, builder: (context) => TrailModal());
+                showDialog(
+                  context: context, 
+                  builder: (context) => TrailModal(
+                    trail: trail,
+                ));
               },
-              title: data['title'] ?? '',
-              subtitle: '4.2 out of 7',
-              subtitle2: data['description'] ?? '',
-              subtitle3: '200km',
+              title: trail.title,
+              subtitle: trail.distance,
+              subtitle2: trail.description,
+              subtitle3: trail.duration
             );
           }).toList(),
         );

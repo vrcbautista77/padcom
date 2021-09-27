@@ -49,7 +49,7 @@ class _MapPageState extends State<MapPage> {
 
   void setCustomMarker() async {
     mapMarker = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/Logo.png');
+        ImageConfiguration(), 'assets/marker_sos.png');
   }
 
   void _onMapCreated(GoogleMapController controller) {

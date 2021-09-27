@@ -11,6 +11,8 @@ import 'package:padcom/pages/edit_profile_page.dart';
 import 'package:padcom/pages/home_page.dart';
 import 'package:padcom/pages/register_page.dart';
 import 'package:padcom/provider/user.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -221,7 +223,12 @@ class _LoginPageState extends State<LoginPage> {
                                            setState(() {
                                         isLoading = false;
                                       });
-                                        showSnackbar(context, message: "Please input your credentials");
+                                        showTopSnackBar(
+                                            context,
+                                            CustomSnackBar.info(
+                                              message: "Please input your credentials",
+                                            ),
+                                        );
                                         return;
                                       }
 
@@ -252,8 +259,12 @@ class _LoginPageState extends State<LoginPage> {
                                             id: checkUserDetails.id,
                                             data: checkUserDetails.data());
                                       } catch (err) {
-                                        showSnackbar(context,
-                                            message: err.toString());
+                                        showTopSnackBar(
+                                            context,
+                                            CustomSnackBar.error(
+                                              message: "Error Occured, please try again",
+                                            ),
+                                        );
                                         setState(() {
                                           isLoading = false;
                                         });
@@ -345,8 +356,12 @@ class _LoginPageState extends State<LoginPage> {
                                             id: checkUserDetails.id,
                                             data: checkUserDetails.data());
                                       } catch (err) {
-                                        showSnackbar(context,
-                                            message: err.toString());
+                                        showTopSnackBar(
+                                            context,
+                                            CustomSnackBar.error(
+                                              message: "Error Occured, please try again",
+                                            ),
+                                        );
                                         setState(() {
                                           isLoading = false;
                                         });

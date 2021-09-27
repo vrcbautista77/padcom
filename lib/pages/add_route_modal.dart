@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:padcom/constants/color.dart';
 import 'package:padcom/global_variables.dart';
+import 'package:padcom/models/trail_model.dart';
 import 'package:padcom/pages/app_dropdown.dart';
 import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
 import 'package:padcom/pages/map_component.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:uuid/uuid.dart';
 
 class AddRouteModal extends StatefulWidget {
   const AddRouteModal({Key key}) : super(key: key);
@@ -21,7 +25,15 @@ class _AddRouteModalState extends State<AddRouteModal> {
   TextEditingController _description = TextEditingController();
   String difficultyValue = 'Beginner';
 
-  CollectionReference trailsCollection = FirebaseFirestore.instance.collection('trails');
+  CollectionReference trailsCollection =
+      FirebaseFirestore.instance.collection('trails');
+
+  LatLng origin;
+  LatLng destination;
+  String duration;
+  String distance;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +50,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: Text('Add Route'),
+                  child: Text('Add Trail'),
                 ),
                 IconButton(
                     onPressed: () {
@@ -87,7 +99,20 @@ class _AddRouteModalState extends State<AddRouteModal> {
             Container(
               height: 230,
               width: 240,
-              child: MapComponent(),
+              child: MapComponent(
+                originCallback: (value) {
+                  origin = value;
+                },
+                destinationCallback: (value) {
+                  destination = value;
+                },
+                durationCallback: (value) {
+                  duration = value;
+                },
+                distanceCallback: (value) {
+                  distance = value;
+                },
+              ),
             ),
             SizedBox(
               height: 20,
@@ -106,7 +131,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
                 });
               },
             ),
-                        SizedBox(
+            SizedBox(
               height: 15,
             ),
             Container(
@@ -137,37 +162,89 @@ class _AddRouteModalState extends State<AddRouteModal> {
             ),
             Container(
               padding: EdgeInsets.only(left: 20, right: 20),
-              child: ExpandedButton(
-                buttonColor: AppColor.secondary,
-                borderRadius: 20,
-                expanded: true,
-                elevation: 1,
-                title: 'Submit',
-                titleFontSize: 14,
-                onTap: () async {
-                  if(_title.text == '' || _description.text == ''){
-                    _showSnackbar(context, message: "Please complete details");
-                    return;
-                  }
-                  
-                  await trailsCollection.add({
-                    'title': _title.text,
-                    'description': _description.text,
-                    'difficulty': difficultyValue,
-                    'user_id': globalUser.id,
-                    'created_at': DateTime.now()
-                  })
-                  .then((value) {
-                    Navigator.pop(context);
-                    _showSnackbar(context, message: "Route added success");
-                  })
-                  .catchError((error) {
-                      _showSnackbar(context, message: "Route added error");
-                  });
-                },
-                titleAlignment: Alignment.center,
-                titleColor: Colors.white,
-              ),
+              child: isLoading == false
+                  ? ExpandedButton(
+                      buttonColor: AppColor.secondary,
+                      borderRadius: 20,
+                      expanded: true,
+                      elevation: 1,
+                      title: 'Confirm New Trail',
+                      titleFontSize: 14,
+                      onTap: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+
+                        if (_title.text == '' || _description.text == '') {
+                          showTopSnackBar(
+                            context,
+                            CustomSnackBar.info(
+                              message:
+                                  "Please complete required details to proceed",
+                            ),
+                          );
+                          setState(() {
+                            isLoading = false;
+                          });
+                          return;
+                        }
+
+                        if (origin == null || destination == null) {
+                          showTopSnackBar(
+                            context,
+                            CustomSnackBar.info(
+                              message:
+                                  "Please pin origin/destination in the map",
+                            ),
+                          );
+                          setState(() {
+                            isLoading = false;
+                          });
+                          return;
+                        }
+
+                        final newUID = Uuid().v4();
+                        Trail newTrail = Trail(id: newUID, data: {});
+                        newTrail.createdAt = DateTime.now();
+                        newTrail.title = _title.text;
+                        newTrail.description = _description.text;
+                        newTrail.difficulty = difficultyValue;
+                        newTrail.userID = globalUser.id;
+                        newTrail.origin =
+                            GeoPoint(origin.latitude, origin.longitude);
+                        newTrail.destination = GeoPoint(
+                            destination.latitude, destination.longitude);
+                        newTrail.duration = duration;
+                        newTrail.distance = distance;
+
+                        await trailsCollection
+                            .add(newTrail.toJSON())
+                            .then((value) {
+                          Navigator.pop(context);
+                          isLoading = false;
+                          showTopSnackBar(
+                            context,
+                            CustomSnackBar.success(
+                              message: "Trail added successfully!",
+                            ),
+                          );
+                        }).catchError((error) {
+                          setState(() {
+                            isLoading = false;
+                          });
+
+                          showTopSnackBar(
+                            context,
+                            CustomSnackBar.error(
+                              message: "Error Occured, please try again",
+                            ),
+                          );
+                        });
+                      },
+                      titleAlignment: Alignment.center,
+                      titleColor: Colors.white,
+                    )
+                  : CircularProgressIndicator(),
             ),
             SizedBox(
               height: 10,
@@ -176,19 +253,5 @@ class _AddRouteModalState extends State<AddRouteModal> {
         ),
       ),
     );
-  }
-    _showSnackbar(context, {@required String message}) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(new SnackBar(
-        backgroundColor: Colors.black,
-        duration: Duration(seconds: 2),
-        content: new Text(
-          message,
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-      ));
   }
 }
