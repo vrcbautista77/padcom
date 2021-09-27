@@ -7,6 +7,8 @@ import 'package:padcom/global_variables.dart';
 import 'package:padcom/models/user_model.dart';
 import 'package:padcom/pages/edit_profile_page.dart';
 import 'package:padcom/provider/user.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'expanded_button.dart';
 
@@ -373,8 +375,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     setState(() {
                       isLoading = false;
                     });
-                    showSnackbar(context,
-                        message: "Please fill up all incomplete fields");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.info(
+                          message: "Please complete required details to proceed",
+                        ),
+                    );
                     return;
                   }
 
@@ -382,8 +388,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     setState(() {
                       isLoading = false;
                     });
-                    showSnackbar(context,
-                        message: "Password do not match");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Password do not match",
+                        ),
+                    );
                     return;
                   }
 
@@ -393,8 +403,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       setState(() {
                         isLoading = false;
                       });
-                      showSnackbar(context,
-                          message: "Email is already taken");
+                      showTopSnackBar(
+                          context,
+                          CustomSnackBar.error(
+                            message: "Email is already taken",
+                          ),
+                      );
                       return;
                     }
 
@@ -423,12 +437,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     //set global user variable
                     globalUser = User.fromDB(
                         id: checkUserDetails.id, data: checkUserDetails.data());
-                  // } catch (err) {
-                  //   showSnackbar(context, message: err.toString());
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // }
                 },
                 titleAlignment: Alignment.center,
                 titleColor: Colors.white,

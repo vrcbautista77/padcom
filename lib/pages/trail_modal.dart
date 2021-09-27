@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:padcom/constants/color.dart';
-import 'package:padcom/pages/classic_textfield.dart';
-import 'package:padcom/pages/expanded_button.dart';
-import 'package:padcom/pages/expanded_texfield.dart';
+import 'package:padcom/models/trail_model.dart';
 import 'package:padcom/pages/map_component.dart';
+import 'package:padcom/pages/map_view_component.dart';
 
 class TrailModal extends StatefulWidget {
-  const TrailModal({Key key}) : super(key: key);
+  final Trail trail;
+
+  const TrailModal({Key key, @required this.trail}) : super(key: key);
 
   @override
   _TrailModalState createState() => _TrailModalState();
 }
 
 class _TrailModalState extends State<TrailModal> {
-  TextEditingController _groupName = TextEditingController();
-  TextEditingController _description = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class _TrailModalState extends State<TrailModal> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: Text('Rizal New Trail'),
+                  child: Text(widget.trail.title),
                 ),
                 IconButton(
                     onPressed: () {
@@ -51,7 +50,7 @@ class _TrailModalState extends State<TrailModal> {
                 child: RichText(
                   text: TextSpan(children: [
                     TextSpan(
-                      text: '4.2 out of 7 ',
+                      text: widget.trail.distance,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 11,
@@ -67,7 +66,7 @@ class _TrailModalState extends State<TrailModal> {
                       ),
                     ),
                     TextSpan(
-                      text: '200km ',
+                      text: widget.trail.duration,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 11,
@@ -81,15 +80,17 @@ class _TrailModalState extends State<TrailModal> {
             Container(
               height: 230,
               width: 240,
-              child: MapComponent()
+              child: MapViewComponent(
+                origin: LatLng(widget.trail.origin.latitude, widget.trail.origin.longitude),
+                destination: LatLng(widget.trail.destination.latitude, widget.trail.destination.longitude),
+              )
             ),
             SizedBox(
               height: 20,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.65,
-              child: Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea ',
+              child: Text(widget.trail.description,
                 style: TextStyle(
                   fontSize: 11,
                 ),
@@ -98,78 +99,78 @@ class _TrailModalState extends State<TrailModal> {
             SizedBox(
               height: 15,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Name',
-                        style: TextStyle(
-                          color: AppColor.primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Best Record',
-                        style: TextStyle(
-                          color: AppColor.primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '1.) John Smith',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      Text(
-                        '20 secs',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '2.) Merry Faith',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      Text(
-                        '1.5 mins',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 20, right: 20),
+            //   child: Column(
+            //     children: [
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Text(
+            //             'Name',
+            //             style: TextStyle(
+            //               color: AppColor.primary,
+            //               fontSize: 14,
+            //               fontWeight: FontWeight.bold,
+            //             ),
+            //           ),
+            //           Text(
+            //             'Best Record',
+            //             style: TextStyle(
+            //               color: AppColor.primary,
+            //               fontSize: 14,
+            //               fontWeight: FontWeight.bold,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       SizedBox(
+            //         height: 5,
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Text(
+            //             '1.) John Smith',
+            //             style: TextStyle(
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.normal,
+            //             ),
+            //           ),
+            //           Text(
+            //             '20 secs',
+            //             style: TextStyle(
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.normal,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       SizedBox(
+            //         height: 5,
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Text(
+            //             '2.) Merry Faith',
+            //             style: TextStyle(
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.normal,
+            //             ),
+            //           ),
+            //           Text(
+            //             '1.5 mins',
+            //             style: TextStyle(
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.normal,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
               height: 10,
             ),

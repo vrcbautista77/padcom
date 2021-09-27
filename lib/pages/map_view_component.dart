@@ -1,34 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:padcom/models/directions_model.dart';
 import 'package:padcom/provider/directions_provider.dart';
 
+class MapViewComponent extends StatefulWidget {
+  final LatLng origin;
+  final LatLng destination;
 
-typedef void OriginCallback(LatLng val);
-typedef void DestinationCallback(LatLng val);
-typedef void SpeedCallback(String val);
-typedef void DistanceCallback(String val);
-
-class MapComponent extends StatefulWidget {
-  final OriginCallback originCallback;
-  final DestinationCallback destinationCallback;
-  final SpeedCallback durationCallback;
-  final DistanceCallback distanceCallback;
-
-  MapComponent({this.originCallback, this.destinationCallback, this.durationCallback, this.distanceCallback});
+  MapViewComponent({this.origin, this.destination});
 
   @override
   _MapComponentState createState() => _MapComponentState();
 }
 
-class _MapComponentState extends State<MapComponent> {
-  static const _initialCameraPosition = CameraPosition(
-    target: LatLng(14.6654872, 121.105623),
-    zoom: 11.5,
-  );
-
+class _MapComponentState extends State<MapViewComponent> {
+  var _initialCameraPosition;
   GoogleMapController _googleMapController;
   Marker _origin;
   Marker _destination;
@@ -38,7 +24,12 @@ class _MapComponentState extends State<MapComponent> {
   @override
   void initState() {
     super.initState();
-    setCustomMarker();
+
+    _initialCameraPosition = CameraPosition(
+    target: widget.origin,
+    zoom: 11.5,
+  );
+    _addMarker();
   }
 
   @override
@@ -47,10 +38,11 @@ class _MapComponentState extends State<MapComponent> {
     super.dispose();
   }
 
-  void setCustomMarker() async {
+  Future<void> setCustomMarker() async {
     mapMarker = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(), 'assets/marker.png');
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +70,6 @@ class _MapComponentState extends State<MapComponent> {
                         .toList(),
                   ),
               },
-              onLongPress: _addMarker,
             ),
             if (_info != null)
               Positioned(
@@ -124,46 +115,28 @@ class _MapComponentState extends State<MapComponent> {
     );
   }
 
-  void _addMarker(LatLng pos) async {
-    if (_origin == null || (_origin != null && _destination != null)) {
-      // Origin is not set OR Origin/Destination are both set
-      // Set origin
-      widget.originCallback(pos);
+  void _addMarker() async {
+    await setCustomMarker();
 
-      setState(() {
-        _origin = Marker(
-          markerId: const MarkerId('origin'),
-          infoWindow: const InfoWindow(title: 'Origin'),
-          icon: mapMarker,
-          position: pos,
-        );
-        // Reset destination
-        _destination = null;
+    setState(() {
+      _origin = Marker(
+        markerId: const MarkerId('origin'),
+        infoWindow: const InfoWindow(title: 'Origin'),
+        icon: mapMarker,
+        position: widget.origin,
+      );
 
-        // Reset info
-        _info = null;
-      });
-    } else {
-      // Origin is already set
-      // Set destination
+      _destination = Marker(
+        markerId: const MarkerId('destination'),
+        infoWindow: const InfoWindow(title: 'Destination'),
+        icon: mapMarker,
+        position: widget.destination,
+      );
+    });
 
-      setState(() {
-        _destination = Marker(
-          markerId: const MarkerId('destination'),
-          infoWindow: const InfoWindow(title: 'Destination'),
-          icon: mapMarker,
-          position: pos,
-        );
-      });
-
-      // Get directions
-      final directions = await DirectionsRepository()
-          .getDirections(origin: _origin.position, destination: pos);
-      setState(() => _info = directions);
-
-      widget.destinationCallback(pos);
-      widget.durationCallback(_info.totalDuration);
-      widget.distanceCallback(_info.totalDistance);
-    }
+    // Get directions
+    final directions = await DirectionsRepository()
+        .getDirections(origin: widget.origin, destination: widget.destination);
+    setState(() => _info = directions);
   }
 }

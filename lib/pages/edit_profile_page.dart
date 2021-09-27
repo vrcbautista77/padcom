@@ -6,6 +6,8 @@ import 'package:padcom/global_functions.dart';
 import 'package:padcom/global_variables.dart';
 import 'package:padcom/models/user_model.dart';
 import 'package:padcom/pages/home_page.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class EditProfile extends StatefulWidget {
   EditProfile({Key key, this.from}) : super(key: key);
@@ -55,9 +57,12 @@ class _EditProfileState extends State<EditProfile> {
                     _genderController.text == "" ||
                     _weightController.text == "" ||
                     _birthdayController.text == "") {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Please complete all required fields"),
-                  ));
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.info(
+                          message: "Please complete required details to proceed",
+                        ),
+                    );
 
                   setState(() {
                     _isLoading = false;
@@ -108,10 +113,24 @@ class _EditProfileState extends State<EditProfile> {
                   // set global user
                   globalUser = newUser;
 
+                  showTopSnackBar(
+                      context,
+                      CustomSnackBar.success(
+                        message: "Register successfully!",
+                      ),
+                  );
+
+                  await Future.delayed(Duration(seconds: 3));
+
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => HomePage()));
                 } catch (error) {
-                  showSnackbar(context, message: error.toString());
+                  showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Error Occured, please try again",
+                        ),
+                    );
                   setState(() {
                     _isLoading = false;
                   });

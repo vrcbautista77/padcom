@@ -40,7 +40,8 @@ dependencies:
   dio: ^4.0.0
   geolocator: 
   provider: ^4.3.1
-  location: 
+  location:
+  top_snackbar_flutter: ^1.0.1
 
 
 dev_dependencies:

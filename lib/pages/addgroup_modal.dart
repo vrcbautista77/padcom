@@ -5,6 +5,8 @@ import 'package:padcom/pages/classic_textfield.dart';
 import 'package:padcom/pages/expanded_button.dart';
 import 'package:padcom/pages/expanded_texfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class AddGroupModal extends StatefulWidget {
   const AddGroupModal({Key key}) : super(key: key);
@@ -101,7 +103,12 @@ class _AddGroupModalState extends State<AddGroupModal> {
                 titleFontSize: 14,
                      onTap: () async {
                   if(_groupName.text == '' || _description.text == ''){
-                    _showSnackbar(context, message: "Please complete details");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.info(
+                          message: "Please complete required details to proceed",
+                        ),
+                    );
                     return;
                   }
                   
@@ -114,10 +121,20 @@ class _AddGroupModalState extends State<AddGroupModal> {
                   })
                   .then((value) {
                     Navigator.pop(context);
-                    _showSnackbar(context, message: "Group added successfully");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.success(
+                          message: "Group added successfully!",
+                        ),
+                    );
                   })
                   .catchError((error) {
-                      _showSnackbar(context, message: "Group denied");
+                    showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Error Occured, please try again",
+                        ),
+                    );
                   });
                 },
                 titleAlignment: Alignment.center,
@@ -132,18 +149,4 @@ class _AddGroupModalState extends State<AddGroupModal> {
       ),
     );
   }
-}
-  _showSnackbar(context, {@required String message}) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(new SnackBar(
-        backgroundColor: Colors.black,
-        duration: Duration(seconds: 2),
-        content: new Text(
-          message,
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-      ));
 }
